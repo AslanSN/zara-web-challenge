@@ -1,0 +1,20 @@
+section.search_bar {
+  display: flex;
+  flex-direction: column;
+  input { 
+    margin: 4rem 0 0 0;
+    width: 80svw;
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid black;
+    font-size: x-large;
+
+    &:focus-visible{
+      outline: none;
+      caret-color: var(--marvel);
+    }
+  }
+  span{
+    color: var(--subtitle)
+  }
+}
