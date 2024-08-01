@@ -15,13 +15,14 @@ export interface Character {
 export interface Comics {
 	readonly available: number
 	readonly collectionURI: string
-	readonly items: ComicsItem[]
+	items: ComicsItem[]
 	readonly returned: number
 }
 
 export interface ComicsItem {
 	readonly resourceURI: string
 	readonly name: string
+	imagePath: string
 }
 
 export interface Stories {
@@ -37,12 +38,6 @@ export interface StoriesItem {
 	readonly type: ItemType
 }
 
-// export enum ItemType {
-// 	Cover = 'cover',
-// 	Empty = '',
-// 	InteriorStory = 'interiorStory',
-// }
-
 export type ItemType = 'cover' | '' | 'interiorStory'
 
 export interface Thumbnail {
@@ -50,21 +45,10 @@ export interface Thumbnail {
 	readonly extension: Extension
 }
 
-// export enum Extension {
-//   GIF = "gif",
-//   Jpg = "jpg",
-// }
-
 export type Extension = 'gif' | 'jpg'
 export interface URL {
 	readonly type: URLType
 	readonly url: string
 }
-
-// export enum URLType {
-// 	Comiclink = 'comiclink',
-// 	Detail = 'detail',
-// 	Wiki = 'wiki',
-// }
 
 export type URLType = 'comiclink' | 'detail' | 'wiki'

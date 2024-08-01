@@ -1,31 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import { charactersReducer } from '../characterReducer'
-import {
-	INITIAL_CHARACTERS_PER_PAGE,
-	INITIAL_LIMIT,
-	INITIAL_OFFSET,
-} from '../constants'
-import { CharactersAction } from '../characterContextTypes'
+import { CharactersAction } from '../types/characterContextTypes'
 import { mockedCharacter } from './helpers'
-import { Character } from '../../../types/types'
+import { Character } from '../types/characterTypes'
+import { initialCharactersContextState } from '../CharactersContext'
 
 describe('charactersReducer', () => {
-	const initialState = {
-		allCharacters: [],
-		filteredCharacters: [],
-		favorites: [],
-		selectedCharacter: null,
-		isLoading: false,
-		error: null,
-		limit: INITIAL_LIMIT,
-		offset: INITIAL_OFFSET,
-		hasMore: true,
-		searchTerm: '',
-		charactersPerPage: INITIAL_CHARACTERS_PER_PAGE,
-	}
 	it('should handle FETCH_START', () => {
 		const action: CharactersAction = { type: 'FETCH_START' }
-		const newState = charactersReducer(initialState, action)
+		const newState = charactersReducer(initialCharactersContextState, action)
 
 		expect(newState.isLoading).toBe(true)
 	})
@@ -35,7 +18,7 @@ describe('charactersReducer', () => {
 			type: 'FETCH_SUCCESS',
 			payload: [mockedCharacter],
 		}
-		const newState = charactersReducer(initialState, action)
+		const newState = charactersReducer(initialCharactersContextState, action)
 
 		expect(newState.allCharacters).toEqual([mockedCharacter])
 		expect(newState.isLoading).toBeFalsy()
@@ -47,7 +30,7 @@ describe('charactersReducer', () => {
 			type: 'FETCH_ERROR',
 			payload: 'An error occurred',
 		}
-		const newState = charactersReducer(initialState, action)
+		const newState = charactersReducer(initialCharactersContextState, action)
 
 		expect(newState.error).toBe('An error occurred')
 		expect(newState.isLoading).toBeFalsy()
@@ -58,14 +41,14 @@ describe('charactersReducer', () => {
 			type: 'SELECT_CHARACTER',
 			payload: mockedCharacter,
 		}
-		const newState = charactersReducer(initialState, action)
+		const newState = charactersReducer(initialCharactersContextState, action)
 
 		expect(newState.selectedCharacter).toEqual(mockedCharacter)
 	})
 
 	it('should handle CLEAR_SELECTION', () => {
 		const editedState = {
-			...initialState,
+			...initialCharactersContextState,
 			selectedCharacter: mockedCharacter,
 		}
 		const action: CharactersAction = { type: 'CLEAR_SELECTION' }
@@ -76,7 +59,7 @@ describe('charactersReducer', () => {
 
 	it('should handle SET_SEARCH_TERM', () => {
 		const editedState = {
-			...initialState,
+			...initialCharactersContextState,
 			allCharacters: [mockedCharacter],
 		}
 
@@ -95,7 +78,7 @@ describe('charactersReducer', () => {
 			type: 'SET_HAS_MORE',
 			payload: false,
 		}
-		const newState = charactersReducer(initialState, action)
+		const newState = charactersReducer(initialCharactersContextState, action)
 		expect(newState.hasMore).toBe(false)
 	})
 })
