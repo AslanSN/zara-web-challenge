@@ -1,13 +1,16 @@
-import Searchbar from '@/components/Searchbar/Searchbar'
 import styles from './page.module.css'
-import CharactersList from '@/components/CharactersList/CharactersList'
+import { Metadata } from 'next'
+import HomePageContainer from '@/components/CharactersListsPages/HomePageContainer'
+
+export const metadata: Metadata = {
+	title: 'Zara web challenge',
+	description: 'A web challenge for Inditex enterprise',
+}
 
 export default function Home() {
-
 	return (
 		<main className={styles.main}>
-			<Searchbar />
-			<CharactersList />
+			<HomePageContainer />
 		</main>
 	)
 }
