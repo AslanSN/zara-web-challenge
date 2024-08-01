@@ -1,5 +1,5 @@
 import { INITIAL_CHARACTERS_PER_PAGE, INITIAL_OFFSET } from './constants'
-import { CharactersAction, CharactersState } from './types'
+import { CharactersAction, CharactersState } from './characterContextTypes'
 
 export const charactersReducer = (
 	state: CharactersState,
@@ -28,9 +28,10 @@ export const charactersReducer = (
 			return {
 				...state,
 				searchTerm: action.payload,
-				filteredCharacters: state.allCharacters.filter((char) =>
-					char.name.toLowerCase().startsWith(action.payload.toLowerCase())
+				filteredCharacters: state.allCharacters.filter((character) =>
+					character.name.toLowerCase().startsWith(action.payload.toLowerCase())
 				),
+
 				offset: INITIAL_OFFSET,
 				hasMore: true,
 			}

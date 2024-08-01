@@ -3,6 +3,7 @@ import { Character } from '@/types/types'
 export interface CharactersState {
 	allCharacters: Character[]
 	filteredCharacters: Character[]
+	favorites: Character[]
 	selectedCharacter: Character | null
 	isLoading: boolean
 	error: string | null

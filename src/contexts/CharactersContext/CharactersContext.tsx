@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import {
 	createContext,
 	useCallback,
@@ -7,7 +7,7 @@ import {
 	useMemo,
 	useReducer,
 } from 'react'
-import type { CharactersContextType } from './types'
+import type { CharactersContextType } from './characterContextTypes'
 import { charactersReducer } from './characterReducer'
 import { fetchCharacters } from '@/services/marvelApi'
 import { Character } from '@/types/types'
@@ -37,13 +37,14 @@ export const CharactersContextProvider: React.FC<{
 	const [state, dispatch] = useReducer(charactersReducer, {
 		allCharacters: [],
 		filteredCharacters: [],
+		favorites: [],
 		selectedCharacter: null,
 		isLoading: false,
 		error: null,
 		offset: INITIAL_OFFSET,
 		hasMore: true,
-		searchTerm: '',
 		limit: INITIAL_LIMIT,
+		searchTerm: '',
 		charactersPerPage: INITIAL_CHARACTERS_PER_PAGE,
 	})
 
@@ -51,15 +52,12 @@ export const CharactersContextProvider: React.FC<{
 		if (state.isLoading || !state.hasMore) return
 
 		dispatch({ type: 'FETCH_START' })
-
 		try {
 			const newCharacters = await fetchCharacters({
 				offset: state.offset,
 				limit: state.limit,
 				nameStartsWith: state.searchTerm || undefined,
 			})
-			console.log("🚀 ~ file: CharactersContext.tsx:85 ~ fetchNextPage ~ newCharacters:", newCharacters)
-
 			dispatch({ type: 'FETCH_SUCCESS', payload: newCharacters })
 
 			if (newCharacters.length < state.charactersPerPage) {
@@ -83,7 +81,6 @@ export const CharactersContextProvider: React.FC<{
 	])
 
 	const selectCharacter = useCallback((character: Character) => {
-
 		dispatch({ type: 'SELECT_CHARACTER', payload: character })
 	}, [])
 
@@ -125,12 +122,12 @@ export const CharactersContextProvider: React.FC<{
  */
 export const useCharactersContext = (): CharactersContextType => {
 	const context = useContext(CharactersContext)
-  
+
 	if (context === undefined) {
-    throw new Error(
-      'useCharactersContext must be used within a CharactersContextProvider'
+		throw new Error(
+			'useCharactersContext must be used within a CharactersContextProvider'
 		)
 	}
-  
+
 	return context
 }

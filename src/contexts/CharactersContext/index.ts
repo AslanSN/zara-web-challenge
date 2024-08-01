@@ -1,2 +1,5 @@
-export { CharactersContextProvider, useCharactersContext } from './CharactersContext';
-export type { CharactersContextType } from './types';
+export {
+	CharactersContextProvider,
+	useCharactersContext,
+} from './CharactersContext'
+export type { CharactersContextType } from './characterContextTypes'
