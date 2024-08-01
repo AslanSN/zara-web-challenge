@@ -1,5 +1,8 @@
-import { INITIAL_CHARACTERS_PER_PAGE, INITIAL_OFFSET } from './constants'
-import { CharactersAction, CharactersState } from './characterContextTypes'
+import {
+	CharactersAction,
+	CharactersState,
+} from './types/characterContextTypes'
+import { initialCharactersContextState } from './CharactersContext'
 
 export const charactersReducer = (
 	state: CharactersState,
@@ -16,12 +19,19 @@ export const charactersReducer = (
 					? action.payload
 					: [...state.filteredCharacters, ...action.payload],
 				isLoading: false,
-				offset: state.offset + INITIAL_CHARACTERS_PER_PAGE,
+				offset: state.offset + initialCharactersContextState.offset,
 			}
 		case 'FETCH_ERROR':
 			return { ...state, isLoading: false, error: action.payload }
+		// case "SET_FAVOURITE_CHARACTER":
+		// 	return {...state, favouriteCharacter: action.payload}
 		case 'SELECT_CHARACTER':
-			return { ...state, selectedCharacter: action.payload }
+			action.payload
+			return {
+				...state,
+				selectedCharacter: action.payload,
+				isLoading: false,
+			}
 		case 'CLEAR_SELECTION':
 			return { ...state, selectedCharacter: null }
 		case 'SET_SEARCH_TERM':
@@ -32,7 +42,7 @@ export const charactersReducer = (
 					character.name.toLowerCase().startsWith(action.payload.toLowerCase())
 				),
 
-				offset: INITIAL_OFFSET,
+				offset: initialCharactersContextState.offset,
 				hasMore: true,
 			}
 		case 'SET_HAS_MORE':

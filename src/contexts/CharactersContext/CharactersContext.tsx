@@ -7,15 +7,17 @@ import {
 	useMemo,
 	useReducer,
 } from 'react'
-import type { CharactersContextType } from './characterContextTypes'
+import type {
+	CharactersContextType,
+	CharactersState,
+} from './types/characterContextTypes'
 import { charactersReducer } from './characterReducer'
-import { fetchCharacters } from '@/services/marvelApi'
-import { Character } from '@/types/types'
 import {
-	INITIAL_CHARACTERS_PER_PAGE,
-	INITIAL_LIMIT,
-	INITIAL_OFFSET,
-} from './constants'
+	fetchCharacterById,
+	fetchCharacters,
+	fetchComicImageByUri,
+} from '@/services/marvelApi'
+import { Character } from './types/characterTypes'
 
 /**
  * ! CONTEXT
@@ -24,6 +26,20 @@ import {
 export const CharactersContext = createContext<
 	CharactersContextType | undefined
 >(undefined)
+
+export const initialCharactersContextState: CharactersState = {
+	allCharacters: [],
+	filteredCharacters: [],
+	favorites: [],
+	selectedCharacter: null,
+	isLoading: false,
+	error: null,
+	offset: 0,
+	hasMore: true,
+	limit: 10,
+	searchTerm: '',
+	maxCharacters: 50,
+}
 
 /**
  * ! Context Provider
@@ -34,33 +50,31 @@ export const CharactersContext = createContext<
 export const CharactersContextProvider: React.FC<{
 	children: React.ReactNode
 }> = ({ children }) => {
-	const [state, dispatch] = useReducer(charactersReducer, {
-		allCharacters: [],
-		filteredCharacters: [],
-		favorites: [],
-		selectedCharacter: null,
-		isLoading: false,
-		error: null,
-		offset: INITIAL_OFFSET,
-		hasMore: true,
-		limit: INITIAL_LIMIT,
-		searchTerm: '',
-		charactersPerPage: INITIAL_CHARACTERS_PER_PAGE,
-	})
+	const [state, dispatch] = useReducer(
+		charactersReducer,
+		initialCharactersContextState
+	)
 
 	const fetchNextPage = useCallback(async (): Promise<void> => {
 		if (state.isLoading || !state.hasMore) return
 
 		dispatch({ type: 'FETCH_START' })
 		try {
-			const newCharacters = await fetchCharacters({
+			const { newCharacters, error } = await fetchCharacters({
 				offset: state.offset,
 				limit: state.limit,
 				nameStartsWith: state.searchTerm || undefined,
 			})
+			if (error) {
+				dispatch({
+					type: 'FETCH_ERROR',
+					payload:
+						error instanceof Error ? error.message : 'Network response not ok',
+				})
+				return
+			}
 			dispatch({ type: 'FETCH_SUCCESS', payload: newCharacters })
-
-			if (newCharacters.length < state.charactersPerPage) {
+			if (newCharacters.length < state.maxCharacters) {
 				dispatch({ type: 'SET_HAS_MORE', payload: false })
 			}
 		} catch (error) {
@@ -77,10 +91,62 @@ export const CharactersContextProvider: React.FC<{
 		state.offset,
 		state.limit,
 		state.searchTerm,
-		state.charactersPerPage,
+		state.maxCharacters,
 	])
 
+	const fetchCharacter = useCallback(
+		async (id: number): Promise<void> => {
+			if (state.isLoading) return
+			dispatch({ type: 'FETCH_START' })
+
+			const filteredCharacter = state.allCharacters.find(
+				(character) => character.id === id
+			)
+			if (filteredCharacter) {
+				console.log("🚀 ~ file: CharactersContext.tsx:106 ~ filteredCharacter.comics.items?.[0]?.imagePath:", filteredCharacter.comics.items?.[0]?.imagePath)
+				dispatch({ type: 'SELECT_CHARACTER', payload: filteredCharacter })
+				return
+			}
+
+			// If character is not in allCharacters, fetch it
+			try {
+				const characterData = await fetchCharacterById(id)
+				if (characterData === null) return
+
+				const comicsWithImagePaths = await Promise.all(
+					characterData.comics.items.map(async ({ resourceURI }, index) => {
+						const comicImage = await fetchComicImageByUri(resourceURI)
+						return { ...characterData.comics.items[index], imagePath: comicImage }
+					})
+				)
+
+				const updatedCharacterData = {
+					...characterData,
+					comics: {
+						...characterData.comics,
+						items: comicsWithImagePaths,
+					},
+				}
+
+				dispatch({ type: 'SELECT_CHARACTER', payload: updatedCharacterData })
+			} catch (error: unknown) {
+				let errorMessage: string
+				if (error instanceof Error) {
+					errorMessage = error.message
+				} else {
+					errorMessage = 'An unknown error occurred'
+				}
+				dispatch({
+					type: 'FETCH_ERROR',
+					payload: errorMessage,
+				})
+			}
+		},
+		[state.allCharacters, state.isLoading]
+	)
+
 	const selectCharacter = useCallback((character: Character) => {
+		if (!character) return
 		dispatch({ type: 'SELECT_CHARACTER', payload: character })
 	}, [])
 
@@ -92,21 +158,23 @@ export const CharactersContextProvider: React.FC<{
 		dispatch({ type: 'SET_SEARCH_TERM', payload: term })
 	}, [])
 
-	useEffect(() => {
-		if (state.allCharacters.length === 0) {
-			fetchNextPage()
-		}
-	}, [fetchNextPage, state.allCharacters.length])
-
 	const contextValue = useMemo(
 		() => ({
 			...state,
 			fetchNextPage,
+			fetchCharacter,
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
 		}),
-		[state, fetchNextPage, selectCharacter, clearSelection, searchCharacters]
+		[
+			state,
+			fetchNextPage,
+			fetchCharacter,
+			selectCharacter,
+			clearSelection,
+			searchCharacters,
+		]
 	)
 
 	return (

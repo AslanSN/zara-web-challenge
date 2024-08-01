@@ -2,4 +2,4 @@ export {
 	CharactersContextProvider,
 	useCharactersContext,
 } from './CharactersContext'
-export type { CharactersContextType } from './characterContextTypes'
+export type { CharactersContextType } from './types/characterContextTypes'
