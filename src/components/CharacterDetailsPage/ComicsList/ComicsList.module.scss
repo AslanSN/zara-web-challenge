@@ -1,0 +1,18 @@
+div.comics_list{
+
+  h1{
+    text-transform: uppercase;
+  }
+  ul{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  max-width: 780px;
+  gap: 1rem;
+  list-style: none;
+  overflow-x: auto;
+li{
+  width: min-content;
+}    
+  }
+}
