@@ -2,7 +2,7 @@ nav.navbar {
 	background-color: black;
 	display: flex;
 	padding: 0.5rem 1rem;
-
+	height: 7rem;
 	ul {
 		align-items: center;
 		text-align: center;
@@ -13,8 +13,8 @@ nav.navbar {
 
 		li {
 			margin: 0 1rem;
-			
-			div{
+
+			div {
 				display: flex;
 				align-items: center;
 				gap: 1rem;

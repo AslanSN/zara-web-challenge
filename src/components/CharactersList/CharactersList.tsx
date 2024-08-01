@@ -1,19 +1,16 @@
-"use client"
-import { useCharactersContext } from "@/contexts/CharactersContext"
-import { useEffect } from "react"
-import CharacterCard from "../CharacterCard/CharacterCard"
-import { useCharacters } from "@/hooks/useCharacters"
-
+'use client'
+import { useEffect } from 'react'
+import CharacterCard from '../CharacterCard/CharacterCard'
+import { useCharacters } from '@/hooks/useCharacters'
+import styles from './CharactersList.module.scss'
 const CharactersList = () => {
-  // const { allCharacters, fetchNextPage, isLoading, hasMore, error } =
-  // useCharactersContext()
- const {characters, isLoading, error, fetchNextPage} = useCharacters()
+	const { characters, isLoading, error, fetchNextPage } = useCharacters()
 
-  useEffect(() => {
-  if (characters.length === 0) {
-    fetchNextPage()
-  }
-})
+	useEffect(() => {
+		if (characters.length === 0) {
+			fetchNextPage()
+		}
+	})
 	if (isLoading && characters.length === 0) {
 		return <p>Loading...</p>
 	}
@@ -22,18 +19,22 @@ const CharactersList = () => {
 		return <p>Error: {error}</p>
 	}
 
-
-  return (
-    
-    <ul className={""}>
-    {characters.map((character) => (
-      <CharacterCard
-        key={character.id}
-        // src={'https://picsum.photos/250/300'}
-        name={character.name}
-      />
-    ))}
-  </ul>
-)
+	return (
+		<section className={styles.character_list}>
+			<ul>
+				{characters.map((character) => (
+					<li key={character.id}>
+						<CharacterCard
+							
+							src={
+								character.thumbnail.path + '.' + character.thumbnail.extension
+							}
+							name={character.name}
+						/>
+					</li>
+				))}
+			</ul>
+		</section>
+	)
 }
 export default CharactersList

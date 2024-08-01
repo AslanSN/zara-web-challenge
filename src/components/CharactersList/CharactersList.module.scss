@@ -1,0 +1,9 @@
+section.character_list {
+	width: 80svw;
+	display: flex;
+	flex-direction: row;
+
+	ul {
+		list-style: none;
+	}
+}
