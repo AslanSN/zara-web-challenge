@@ -1,7 +1,6 @@
 'use client'
-import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import Navbar from '@/components/Navbar/Navbar'
+import Navbar from '@/components/common/Navbar/Navbar'
 import './globals.css'
 import React from 'react'
 import { CharactersContextProvider } from '@/contexts/CharactersContext/CharactersContext'
