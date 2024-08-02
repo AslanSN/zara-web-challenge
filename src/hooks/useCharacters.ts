@@ -39,10 +39,28 @@ export const useCharacters = () => {
 		[context]
 	)
 
+	const toggleShowFavorites = useCallback(() => {
+		context.toggleShowFavorites()
+	}, [context])
+
+	const setFavoriteCharacter = useCallback(
+		(character: Character) => {
+			context.setFavoriteCharacter(character)
+		},
+		[context]
+	)
+
+	const unsetFavoriteCharacter = useCallback(
+		(character: Character) => {
+			context.unsetFavoriteCharacter(character)
+		},
+		[context]
+	)
 	const charactersValueMemoized = useMemo(
 		() => ({
 			characters: context.allCharacters,
 			selectedCharacter: context.selectedCharacter,
+			favorites: context.favorites,
 			isLoading: context.isLoading,
 			error: context.error,
 			hasMore: context.hasMore,
@@ -51,10 +69,14 @@ export const useCharacters = () => {
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			setFavoriteCharacter,
+			unsetFavoriteCharacter,
+			toggleShowFavorites,
 		}),
 		[
 			context.allCharacters,
 			context.selectedCharacter,
+			context.favorites,
 			context.isLoading,
 			context.error,
 			context.hasMore,
@@ -63,6 +85,9 @@ export const useCharacters = () => {
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			setFavoriteCharacter,
+			unsetFavoriteCharacter,
+			toggleShowFavorites,
 		]
 	)
 

@@ -31,6 +31,7 @@ export const initialCharactersContextState: CharactersState = {
 	allCharacters: [],
 	filteredCharacters: [],
 	favorites: [],
+	showFavorites: false,
 	selectedCharacter: null,
 	isLoading: false,
 	error: null,
@@ -103,7 +104,10 @@ export const CharactersContextProvider: React.FC<{
 				(character) => character.id === id
 			)
 			if (filteredCharacter) {
-				console.log("🚀 ~ file: CharactersContext.tsx:106 ~ filteredCharacter.comics.items?.[0]?.imagePath:", filteredCharacter.comics.items?.[0]?.imagePath)
+				console.log(
+					'🚀 ~ file: CharactersContext.tsx:106 ~ filteredCharacter.comics.items?.[0]?.imagePath:',
+					filteredCharacter.comics.items?.[0]?.imagePath
+				)
 				dispatch({ type: 'SELECT_CHARACTER', payload: filteredCharacter })
 				return
 			}
@@ -116,7 +120,10 @@ export const CharactersContextProvider: React.FC<{
 				const comicsWithImagePaths = await Promise.all(
 					characterData.comics.items.map(async ({ resourceURI }, index) => {
 						const comicImage = await fetchComicImageByUri(resourceURI)
-						return { ...characterData.comics.items[index], imagePath: comicImage }
+						return {
+							...characterData.comics.items[index],
+							imagePath: comicImage,
+						}
 					})
 				)
 
@@ -158,6 +165,18 @@ export const CharactersContextProvider: React.FC<{
 		dispatch({ type: 'SET_SEARCH_TERM', payload: term })
 	}, [])
 
+	const toggleShowFavorites = useCallback(() => {
+		dispatch({ type: 'TOGGLE_SHOW_FAVORITES' })
+	}, [])
+
+	const setFavoriteCharacter = useCallback((character: Character) => {
+		dispatch({ type: 'SET_FAVORITE_CHARACTER', payload: character })
+	}, [])
+
+	const unsetFavoriteCharacter = useCallback((character: Character) => {
+		dispatch({ type: 'UNSET_FAVORITE_CHARACTER', payload: character })
+	}, [])
+
 	const contextValue = useMemo(
 		() => ({
 			...state,
@@ -166,6 +185,9 @@ export const CharactersContextProvider: React.FC<{
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			toggleShowFavorites,
+			setFavoriteCharacter,
+			unsetFavoriteCharacter,
 		}),
 		[
 			state,
@@ -174,6 +196,9 @@ export const CharactersContextProvider: React.FC<{
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			toggleShowFavorites,
+			setFavoriteCharacter,
+			unsetFavoriteCharacter,
 		]
 	)
 

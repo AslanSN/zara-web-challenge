@@ -23,8 +23,23 @@ export const charactersReducer = (
 			}
 		case 'FETCH_ERROR':
 			return { ...state, isLoading: false, error: action.payload }
-		// case "SET_FAVOURITE_CHARACTER":
-		// 	return {...state, favouriteCharacter: action.payload}
+		case 'SET_FAVORITE_CHARACTER':
+			return { ...state, favorites: [...state.favorites, action.payload] }
+		case 'UNSET_FAVORITE_CHARACTER':
+			return {
+				...state,
+				favorites: state.favorites.filter(
+					(favorite) => favorite.id !== action.payload.id
+				),
+			}
+		case 'TOGGLE_SHOW_FAVORITES':
+			return {
+				...state,
+				showFavorites: !state.showFavorites,
+				filteredCharacters: state.showFavorites
+					? state.favorites
+					: state.allCharacters,
+			}
 		case 'SELECT_CHARACTER':
 			action.payload
 			return {
