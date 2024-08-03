@@ -39,6 +39,13 @@ export const useCharacters = () => {
 		[context]
 	)
 
+	const fetchCharacterImages = useCallback(
+		async (character: Character) => {
+			await context.fetchCharacterImages(character)
+		},
+		[context]
+	)
+
 	const toggleShowFavorites = useCallback(() => {
 		context.toggleShowFavorites()
 	}, [context])
@@ -58,33 +65,25 @@ export const useCharacters = () => {
 	)
 	const charactersValueMemoized = useMemo(
 		() => ({
-			characters: context.allCharacters,
-			selectedCharacter: context.selectedCharacter,
-			favorites: context.favorites,
-			isLoading: context.isLoading,
-			error: context.error,
-			hasMore: context.hasMore,
+			...context,
 			fetchNextPage,
 			fetchCharacter,
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			fetchCharacterImages,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
 			toggleShowFavorites,
 		}),
 		[
-			context.allCharacters,
-			context.selectedCharacter,
-			context.favorites,
-			context.isLoading,
-			context.error,
-			context.hasMore,
+			context,
 			fetchNextPage,
 			fetchCharacter,
 			selectCharacter,
 			clearSelection,
 			searchCharacters,
+			fetchCharacterImages,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
 			toggleShowFavorites,

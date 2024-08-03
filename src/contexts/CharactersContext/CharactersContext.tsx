@@ -1,9 +1,7 @@
-'use client'
 import {
 	createContext,
 	useCallback,
 	useContext,
-	useEffect,
 	useMemo,
 	useReducer,
 } from 'react'
@@ -29,10 +27,13 @@ export const CharactersContext = createContext<
 
 export const initialCharactersContextState: CharactersState = {
 	allCharacters: [],
-	filteredCharacters: [],
-	favorites: [],
+	filteredCharacters: new Set([]),
+	favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
+	charactersDisplaying: 0,
 	showFavorites: false,
 	selectedCharacter: null,
+	isLoadingImages: false,
+	comicsImages: [],
 	isLoading: false,
 	error: null,
 	offset: 0,
@@ -64,7 +65,6 @@ export const CharactersContextProvider: React.FC<{
 			const { newCharacters, error } = await fetchCharacters({
 				offset: state.offset,
 				limit: state.limit,
-				nameStartsWith: state.searchTerm || undefined,
 			})
 			if (error) {
 				dispatch({
@@ -91,51 +91,36 @@ export const CharactersContextProvider: React.FC<{
 		state.hasMore,
 		state.offset,
 		state.limit,
-		state.searchTerm,
 		state.maxCharacters,
 	])
 
-	const fetchCharacter = useCallback(
-		async (id: number): Promise<void> => {
-			if (state.isLoading) return
-			dispatch({ type: 'FETCH_START' })
+	const fetchCharacterImages = useCallback(
+		async (selectedCharacter: Character): Promise<void> => {
+			if (state.isLoadingImages) return
 
-			const filteredCharacter = state.allCharacters.find(
-				(character) => character.id === id
-			)
-			if (filteredCharacter) {
-				console.log(
-					'🚀 ~ file: CharactersContext.tsx:106 ~ filteredCharacter.comics.items?.[0]?.imagePath:',
-					filteredCharacter.comics.items?.[0]?.imagePath
-				)
-				dispatch({ type: 'SELECT_CHARACTER', payload: filteredCharacter })
-				return
-			}
+			dispatch({ type: 'FETCH_CHARACTER_IMAGES_START' })
+			const { items: comics } = selectedCharacter.comics
 
-			// If character is not in allCharacters, fetch it
 			try {
-				const characterData = await fetchCharacterById(id)
-				if (characterData === null) return
-
 				const comicsWithImagePaths = await Promise.all(
-					characterData.comics.items.map(async ({ resourceURI }, index) => {
+					comics.map(async ({ resourceURI, name }) => {
 						const comicImage = await fetchComicImageByUri(resourceURI)
 						return {
-							...characterData.comics.items[index],
+							imageName: name,
 							imagePath: comicImage,
 						}
 					})
 				)
 
-				const updatedCharacterData = {
-					...characterData,
-					comics: {
-						...characterData.comics,
-						items: comicsWithImagePaths,
-					},
+				const updatedComicsImages = {
+					id: selectedCharacter.id,
+					images: comicsWithImagePaths,
 				}
 
-				dispatch({ type: 'SELECT_CHARACTER', payload: updatedCharacterData })
+				dispatch({
+					type: 'FETCH_CHARACTER_IMAGES_SUCCESS',
+					payload: updatedComicsImages,
+				})
 			} catch (error: unknown) {
 				let errorMessage: string
 				if (error instanceof Error) {
@@ -149,7 +134,33 @@ export const CharactersContextProvider: React.FC<{
 				})
 			}
 		},
-		[state.allCharacters, state.isLoading]
+		[state.isLoadingImages]
+	)
+
+	const fetchCharacter = useCallback(
+		async (id: number): Promise<void> => {
+			if (state.isLoading) return
+			dispatch({ type: 'FETCH_START' })
+
+			try {
+				const characterData: Character = await fetchCharacterById(id)
+				if (characterData === null) return
+
+				dispatch({ type: 'SELECT_CHARACTER', payload: characterData })
+			} catch (error: unknown) {
+				let errorMessage: string
+				if (error instanceof Error) {
+					errorMessage = error.message
+				} else {
+					errorMessage = 'An unknown error occurred'
+				}
+				dispatch({
+					type: 'FETCH_ERROR',
+					payload: errorMessage,
+				})
+			}
+		},
+		[state.isLoading]
 	)
 
 	const selectCharacter = useCallback((character: Character) => {
@@ -169,6 +180,11 @@ export const CharactersContextProvider: React.FC<{
 		dispatch({ type: 'TOGGLE_SHOW_FAVORITES' })
 	}, [])
 
+	const setShowFavorites = useCallback(() => {
+		dispatch({ type: 'SET_SHOW_FAVORITES' })
+		clearSelection()
+	}, [clearSelection])
+
 	const setFavoriteCharacter = useCallback((character: Character) => {
 		dispatch({ type: 'SET_FAVORITE_CHARACTER', payload: character })
 	}, [])
@@ -177,6 +193,16 @@ export const CharactersContextProvider: React.FC<{
 		dispatch({ type: 'UNSET_FAVORITE_CHARACTER', payload: character })
 	}, [])
 
+	const setCharactersDisplaying = useCallback(
+		(charactersDisplaying: number) => {
+			dispatch({
+				type: 'SET_CHARACTERS_DISPLAYING',
+				payload: charactersDisplaying,
+			})
+		},
+		[]
+	)
+
 	const contextValue = useMemo(
 		() => ({
 			...state,
@@ -184,10 +210,13 @@ export const CharactersContextProvider: React.FC<{
 			fetchCharacter,
 			selectCharacter,
 			clearSelection,
+			fetchCharacterImages,
 			searchCharacters,
 			toggleShowFavorites,
+			setShowFavorites,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
+			setCharactersDisplaying,
 		}),
 		[
 			state,
@@ -195,10 +224,13 @@ export const CharactersContextProvider: React.FC<{
 			fetchCharacter,
 			selectCharacter,
 			clearSelection,
+			fetchCharacterImages,
 			searchCharacters,
 			toggleShowFavorites,
+			setShowFavorites,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
+			setCharactersDisplaying,
 		]
 	)
 

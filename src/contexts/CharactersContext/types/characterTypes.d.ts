@@ -1,5 +1,6 @@
+import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 export interface Character {
-	readonly id: number
+	readonly id: Id
 	readonly name: string
 	readonly description: string
 	readonly modified: string
@@ -12,17 +13,28 @@ export interface Character {
 	readonly urls: URL[]
 }
 
+export type Id = number
+export type ImagePath = string
+
+export interface ComicsImages {
+	id: Id
+	images: Image[]
+}
+
+export interface Image {
+	imagePath: ImagePath
+	imageName: string
+}
 export interface Comics {
 	readonly available: number
 	readonly collectionURI: string
-	items: ComicsItem[]
+	readonly items: ComicsItem[]
 	readonly returned: number
 }
 
 export interface ComicsItem {
 	readonly resourceURI: string
 	readonly name: string
-	imagePath: string
 }
 
 export interface Stories {
