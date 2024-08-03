@@ -1,12 +1,15 @@
 'use client'
-import { Inter } from 'next/font/google'
+import {  Roboto_Condensed } from 'next/font/google'
 import Navbar from '@/components/common/Navbar/Navbar'
 import './globals.css'
 import React from 'react'
 import { CharactersContextProvider } from '@/contexts/CharactersContext/CharactersContext'
 
-const inter = Inter({ subsets: ['latin'] })
-
+const robotoCondensed = Roboto_Condensed({
+	subsets: ['latin'],
+	weight: ['400', '700'],
+	variable: '--font-roboto-condensed',
+})
 
 export default function RootLayout({
 	children,
@@ -14,8 +17,8 @@ export default function RootLayout({
 	children: React.ReactNode
 }>) {
 	return (
-		<html lang='en'>
-			<body className={inter.className}>
+		<html lang="en">
+			<body className={robotoCondensed.className}>
 				<CharactersContextProvider>
 					<Navbar />
 					{children}
