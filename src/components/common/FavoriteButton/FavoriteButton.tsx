@@ -1,7 +1,7 @@
+import { useCallback, useMemo } from 'react'
+import Image from 'next/image'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { useCharacters } from '@/hooks/useCharacters'
-import Image from 'next/image'
-import { useCallback, useMemo } from 'react'
 
 const FavoriteButton = ({ character }: { character: Character }) => {
 	const { favorites, setFavoriteCharacter, unsetFavoriteCharacter } =
@@ -13,15 +13,12 @@ const FavoriteButton = ({ character }: { character: Character }) => {
 	)
 
 	const handleFavorite = useCallback(() => {
-		console.log(
-			'🚀 ~ file: FavoriteButton.tsx:15 ~ handleFavorite ~ isFavorite:',
-			favorites
-		)
 		if (isFavorite) {
 			unsetFavoriteCharacter(character)
+			return
 		}
 		setFavoriteCharacter(character)
-	}, [character, favorites, isFavorite, setFavoriteCharacter, unsetFavoriteCharacter])
+	}, [character, isFavorite, setFavoriteCharacter, unsetFavoriteCharacter])
 	const handleIconToShow = useMemo(
 		() => (isFavorite ? '/Heart icon.svg' : '/whiteHeartIcon.svg'),
 		[isFavorite]
