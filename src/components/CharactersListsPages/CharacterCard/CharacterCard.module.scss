@@ -3,24 +3,21 @@ div.character_card {
 		display: flex;
 		flex-direction: column;
 		width: fit-content;
-
 	}
 	div {
 		display: flex;
-		justify-content: space-around;
-		max-width: 170px;
+		justify-content: space-between;
+		align-items: center;
 		border: none;
 		outline: none;
 		border-top: 6px solid var(--marvel);
 		background: black;
 		text-align: center;
 		color: white;
-		padding: 1rem 0;
+		padding: 0.5rem;
+		padding-right: 0;
 		position: relative;
-		max-width: 190px;
 		text-wrap: nowrap;
-		text-overflow: ellipsis;
-
 		&::after {
 			content: '';
 			position: absolute;
