@@ -1,12 +1,45 @@
 'use client'
-import { useEffect } from 'react'
 import CharacterCard from '../CharacterCard/CharacterCard'
 import { useCharacters } from '@/hooks/useCharacters'
 import styles from './CharactersList.module.scss'
+import { useMemo } from 'react'
+import { isNotEmptyArray, isNotEmptySet } from '@/utils/predicates'
 const CharactersList = () => {
-	const { characters, isLoading, error } = useCharacters()
+	const {
+		allCharacters,
+		isLoading,
+		error,
+		favorites,
+		searchTerm,
+		filteredCharacters,
+		showFavorites,
+		setCharactersDisplaying,
+	} = useCharacters()
 
-	if (isLoading && characters.length === 0) {
+	const hasSearchTerm = useMemo(() => searchTerm !== '', [searchTerm])
+	const charactersToDisplay = useMemo(() => {
+		if (showFavorites && isNotEmptyArray(favorites) && !hasSearchTerm) {
+			setCharactersDisplaying(favorites.length)
+			return favorites
+		}
+		
+		if (hasSearchTerm && isNotEmptySet(filteredCharacters)) {
+			setCharactersDisplaying(filteredCharacters.size)
+			return Array.from(filteredCharacters)
+		}
+
+		setCharactersDisplaying(allCharacters.length)
+		return allCharacters
+	}, [
+		allCharacters,
+		favorites,
+		filteredCharacters,
+		hasSearchTerm,
+		setCharactersDisplaying,
+		showFavorites,
+	])
+
+	if (isLoading && allCharacters.length === 0) {
 		return <p>Loading...</p>
 	}
 
@@ -16,8 +49,14 @@ const CharactersList = () => {
 
 	return (
 		<section className={styles.character_list}>
+			{showFavorites && !isNotEmptyArray(favorites) && (
+				<h3>You should add some favorites first</h3>
+			)}
+			{hasSearchTerm && !isNotEmptySet(filteredCharacters) && (
+				<h3>No characters found</h3>
+			)}
 			<ul>
-				{characters.map((character) => (
+				{charactersToDisplay.map((character) => (
 					<li key={character.id}>
 						<CharacterCard
 							imageSrc={
