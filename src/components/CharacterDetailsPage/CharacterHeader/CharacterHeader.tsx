@@ -1,15 +1,18 @@
 import Image from 'next/image'
 import styles from './CharacterHeader.module.scss'
+import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
+import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 const CharacterHeader = ({
 	name,
 	imageSrc,
 	description,
+	character,
 }: {
 	name: string
 	imageSrc: string
 	description: string
-	}) => {
-	
+	character: Character
+}) => {
 	return (
 		<section className={styles.character_header}>
 			<div className={styles.container}>
@@ -17,14 +20,7 @@ const CharacterHeader = ({
 				<div className={styles.info}>
 					<div className={styles.title}>
 						<h1>{name}</h1>
-						<button onClick={() => console.log('add to favorites')}>
-							<Image
-								src='/whiteHeartIcon.svg'
-								alt={name}
-								width={24}
-								height={22}
-							/>
-						</button>
+						<FavoriteButton character={character} />
 					</div>
 					<p>
 						{description === ''
