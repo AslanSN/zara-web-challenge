@@ -1,13 +1,10 @@
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import { createHash } from '@/contexts/CharactersContext/utils/hash'
+import { createHash } from '../utils/hash'
 
-interface FetchCharactersParams {
-	offset: number
-	limit: number
-	nameStartsWith?: string
-}
-
-export const getApiBaseParams = () => {
+export const getApiBaseParams = (): {
+	BASE_URL: string
+	encryptedParams: URLSearchParams
+} => {
 	const NEXT_PUBLIC_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
 	const NEXT_PUBLIC_KEY = process.env.NEXT_PUBLIC_KEY
 	const NEXT_PUBLIC_PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY
@@ -26,6 +23,12 @@ export const getApiBaseParams = () => {
 	})
 
 	return { BASE_URL: NEXT_PUBLIC_BASE_URL, encryptedParams: encryptedParams }
+}
+
+interface FetchCharactersParams {
+	offset: number
+	limit: number
+	nameStartsWith?: string
 }
 
 export const fetchCharacters = async ({

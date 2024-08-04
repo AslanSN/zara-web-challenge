@@ -10,12 +10,8 @@ import type {
 	CharactersState,
 } from './types/characterContextTypes'
 import { charactersReducer } from './characterReducer'
-import {
-	fetchCharacterById,
-	fetchCharacters,
-	fetchComicImageByUri,
-} from '@/contexts/CharactersContext/services/marvelApi'
 import { Character } from './types/characterTypes'
+import { fetchCharacterById, fetchCharacters, fetchComicImageByUri } from './services/marvelApi'
 
 /**
  * ! CONTEXT
@@ -43,12 +39,6 @@ export const initialCharactersContextState: CharactersState = {
 	maxCharacters: 50,
 }
 
-/**
- * ! Context Provider
- * @description Context Provider
- * @param param0
- * @returns
- */
 export const CharactersContextProvider: React.FC<{
 	children: React.ReactNode
 }> = ({ children }) => {
