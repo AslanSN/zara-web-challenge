@@ -1,4 +1,4 @@
-import { useCharacters } from '@/hooks/useCharacters'
+import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import styles from './Searchbar.module.scss'
 import { ChangeEvent } from 'react'
 import Image from 'next/image'

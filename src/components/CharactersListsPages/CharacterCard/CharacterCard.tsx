@@ -2,11 +2,11 @@ import Image from 'next/image'
 import styles from './CharacterCard.module.scss'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { useCharacters } from '@/hooks/useCharacters'
+import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import useCharacterCardWidth from './hooks/useCharacterCardWidth'
-import { useEffect } from 'react'
+import useWindowWidth from '../../common/hooks/useCharacterCardWidth'
+import { useMemo } from 'react'
 
 interface CharacterCardProps {
 	imageSrc: string
@@ -23,10 +23,17 @@ const InfoText = styled.p<{ maxWidth: number }>`
 
 const CharacterCard = ({ imageSrc, name, character }: CharacterCardProps) => {
 	const { selectCharacter } = useCharacters()
-	const imageWidth = useCharacterCardWidth()
+	const { windowWidth } = useWindowWidth()
+
+	const imageWidth = useMemo(
+		() => (windowWidth === 'big' ? 190 : 172),
+		[windowWidth]
+	)
+
 	const handleOnClickLink = () => {
 		selectCharacter(character)
 	}
+
 	return (
 		<div className={`${styles.character_card} card`}>
 			<Link href={`/character/${character.id}`} onClick={handleOnClickLink}>

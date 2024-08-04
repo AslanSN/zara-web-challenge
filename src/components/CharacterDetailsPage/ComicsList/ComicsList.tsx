@@ -3,17 +3,16 @@ import {
 	Image,
 } from '@/contexts/CharactersContext/types/characterTypes'
 import ComicCard from '../ComicCard/ComicCard'
+import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import styles from './ComicsList.module.scss'
-import { useCharacters } from '@/hooks/useCharacters'
 
 const ComicsList = ({ comics }: { comics: ComicsImages | undefined }) => {
 	const { isLoadingImages } = useCharacters()
-
 	return (
 		<div className={styles.comics_list}>
 			<h1>Comics</h1>
 			{(!comics && isLoadingImages) || !comics ? (
-				<h3>Images are loading...</h3>
+				<h3>Loading comics...</h3>
 			) : (
 				<ul>
 					{comics.images.map((comic: Image) => (

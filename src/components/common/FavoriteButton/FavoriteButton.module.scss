@@ -1,0 +1,9 @@
+.favorite_button{
+  padding: .5rem;
+  height: 2.5rem;
+  &:hover{
+    z-index: 1;
+    background-color: var(--light-background-transparence);
+    border-radius: 100%;
+  }
+}

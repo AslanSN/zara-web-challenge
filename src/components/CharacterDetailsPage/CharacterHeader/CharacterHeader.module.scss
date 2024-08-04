@@ -5,26 +5,51 @@ section.character_header {
 	display: flex;
 	justify-content: center;
 	border-top: grey 1px solid;
+	position: relative;
+
+	&::after {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		border-bottom: 1.5rem solid var(--background-color);
+		border-left: 1.5rem solid var(--black-background-color);
+	}
+
 	div.container {
 		display: flex;
-		flex-direction: row;
-		gap: 1rem;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		max-width: var(--max-width);
+		width: var(--details-content-width);
+		gap: 1.5rem;
+		
 		div.info {
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5rem;
+			padding: 0 1rem 3rem 1rem;
+
 			div.title {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
 				justify-content: space-between;
-				h1 {
-					text-transform: uppercase;
-				}
 			}
+			
 			p {
-				max-width: var(--text-max-width);
+				text-transform: none;
 				display: block;
+			}
+		}
+		@media screen and (min-width: 600px) {
+			padding: 0;
+			flex-direction: row;
+			// gap: 3rem;
+
+			div.info {
+				padding: 0 3rem;
 			}
 		}
 	}

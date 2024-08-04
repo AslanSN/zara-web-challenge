@@ -1,8 +1,8 @@
 import { useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import { useCharacters } from '@/hooks/useCharacters'
-
+import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
+import styles from './FavoriteButton.module.scss'
 const FavoriteButton = ({ character }: { character: Character }) => {
 	const { favorites, setFavoriteCharacter, unsetFavoriteCharacter } =
 		useCharacters()
@@ -24,12 +24,17 @@ const FavoriteButton = ({ character }: { character: Character }) => {
 		[isFavorite]
 	)
 	return (
-		<button type='button' onClick={handleFavorite}>
+		<button
+			type="button"
+			className={styles.favorite_button}
+			onClick={handleFavorite}
+		>
 			<Image
 				src={handleIconToShow}
-				alt='Favorite icon'
+				alt="Favorite icon"
 				width={24}
 				height={24}
+				priority
 			/>
 		</button>
 	)

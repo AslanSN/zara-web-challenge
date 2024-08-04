@@ -1,18 +1,35 @@
 import { type Image as ImageType } from '@/contexts/CharactersContext/types/characterTypes'
 import Image from 'next/image'
+import styles from './ComicCard.module.scss'
+import useWindowWidth from '@/components/common/hooks/useCharacterCardWidth'
+import { useMemo } from 'react'
 
 const ComicCard = ({ comic }: { comic: ImageType }) => {
+	const { windowWidth } = useWindowWidth()
+	const [imageWidth, imageHeight] = useMemo(
+		() =>
+			windowWidth === 'big'
+				? [180, 270]
+				: windowWidth === 'medium'
+				? [170, 254]
+				: [164, 246],
+		[windowWidth]
+	)
+
 	return (
-		<li key={comic.imageName}>
+		<li key={comic.imageName} className={`${styles.comic_card} card`}>
 			{!comic.imagePath ? null : (
 				<Image
 					src={comic.imagePath}
 					alt={comic.imageName}
-					width={180}
-					height={270}
+					width={imageWidth}
+					height={imageHeight}
 				/>
 			)}
-			<p>{comic.imageName}</p>
+			<footer>
+				<h4>{comic.imageName}</h4>
+				<p>{comic.imageYear}</p>
+			</footer>
 		</li>
 	)
 }

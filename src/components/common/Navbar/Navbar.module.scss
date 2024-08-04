@@ -1,8 +1,8 @@
 nav.navbar {
 	background-color: black;
 	display: flex;
-	padding: 0.5rem 1rem;
-	height: 7rem;
+	// padding: 0.5rem 1rem;
+	// height: 7rem;
 	ul {
 		align-items: center;
 		text-align: center;
@@ -10,14 +10,18 @@ nav.navbar {
 		display: flex;
 		list-style: none;
 		justify-content: space-between;
-
+		padding: 1rem 3rem;
 		li {
-			margin: 0 1rem;
-
-			div {
-				display: flex;
-				align-items: center;
-				gap: 1rem;
+			&.heart_icon {
+				div {
+					display: flex;
+					align-items: center;
+					color: var(--clear-text);
+					a, button {
+						height: 2.5rem;
+						padding: 0.5rem;
+					}
+				}
 			}
 		}
 	}

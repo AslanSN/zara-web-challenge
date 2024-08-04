@@ -1,4 +1,4 @@
-import { useCharacters } from '@/hooks/useCharacters'
+import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import CharacterHeader from './CharacterHeader/CharacterHeader'
 import ComicsList from './ComicsList/ComicsList'
 import styles from './CharacterDetailsLayout.module.scss'
