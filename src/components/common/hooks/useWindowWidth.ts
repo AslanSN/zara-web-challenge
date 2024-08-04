@@ -8,7 +8,7 @@ interface UseWindowWidthParamTypes {
 }
 const useWindowWidth = ({
 	smallScreenBreakPoint = 500,
-	mediumScreenBreakPoint = 834,
+	mediumScreenBreakPoint = 835,
 }: UseWindowWidthParamTypes = {}): {
 	windowWidth: WindowWidthType
 } => {

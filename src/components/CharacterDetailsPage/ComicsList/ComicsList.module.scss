@@ -3,7 +3,6 @@ div.comics_list {
 	display: flex;
 	flex-direction: column;
 	gap: 1.5rem;
-	padding:0 2rem;
 	::-webkit-scrollbar{
 		display: none;
 	}
@@ -19,7 +18,7 @@ div.comics_list {
 			width: min-content;
 		}
 	}
-
+	
 	@media screen and (min-width: 1060px) {
 		max-width: var(--details-content-width);
 		padding: 0;

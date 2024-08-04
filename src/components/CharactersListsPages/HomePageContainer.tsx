@@ -17,6 +17,7 @@ export default function HomePageContainer() {
 			setFavorites(JSON.parse(storedFavorites))
 		}
 	}, [setFavorites])
+
 	return (
 		<section className={styles.home_page_container}>
 			{showFavorites && <h2 className={styles.favorites_title}>Favorites</h2>}
