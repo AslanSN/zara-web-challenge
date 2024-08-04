@@ -2,8 +2,8 @@ import Image from 'next/image'
 import styles from './CharacterHeader.module.scss'
 import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import useWindowWidth from '@/components/common/hooks/useCharacterCardWidth'
 import { useMemo } from 'react'
+import useWindowWidth from '@/components/common/hooks/useWindowWidth'
 const CharacterHeader = ({
 	name,
 	imageSrc,
@@ -15,7 +15,7 @@ const CharacterHeader = ({
 	description: string
 	character: Character
 }) => {
-	const { windowWidth } = useWindowWidth()
+	const { windowWidth } = useWindowWidth({smallScreenBreakPoint: 600})
 	const [imageWidth, imageHeight] = useMemo(
 		() =>
 			windowWidth === 'big'
@@ -27,8 +27,7 @@ const CharacterHeader = ({
 	)
 
 	return (
-		<section className={styles.character_header}>
-			<div className={styles.container}>
+			<div className={styles.character_header}>
 				<Image
 					src={imageSrc}
 					alt={name}
@@ -47,7 +46,6 @@ const CharacterHeader = ({
 					</p>
 				</div>
 			</div>
-		</section>
 	)
 }
 

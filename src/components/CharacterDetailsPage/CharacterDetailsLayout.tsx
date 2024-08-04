@@ -3,6 +3,13 @@ import CharacterHeader from './CharacterHeader/CharacterHeader'
 import ComicsList from './ComicsList/ComicsList'
 import styles from './CharacterDetailsLayout.module.scss'
 import { useEffect } from 'react'
+import styled from 'styled-components'
+
+const MessageForUser = styled.h1`
+	width:100% ;
+	text-align: center;
+`
+
 const CharacterDetailsLayout = () => {
 	const {
 		selectedCharacter,
@@ -24,9 +31,9 @@ const CharacterDetailsLayout = () => {
 		fetchCharacterImages(selectedCharacter)
 	}, [comicsImages, fetchCharacterImages, selectedCharacter])
 
-	if (isLoading) return <h1>Loading...</h1>
-	if (!selectedCharacter) return <h1>No character selected</h1>
-	if (error) return <h1>{error}</h1>
+	if (isLoading) return <MessageForUser>Loading...</MessageForUser>
+	if (!selectedCharacter) return <MessageForUser>No character selected</MessageForUser>
+	if (error) return <MessageForUser>We had an error, try again later</MessageForUser>
 
 	const characterPath = selectedCharacter
 		? `${selectedCharacter.thumbnail.path}.${selectedCharacter.thumbnail.extension}`
@@ -37,12 +44,14 @@ const CharacterDetailsLayout = () => {
 
 	return (
 		<div className={styles.container}>
-			<CharacterHeader
-				name={selectedCharacter.name}
-				imageSrc={characterPath}
-				description={selectedCharacter.description}
-				character={selectedCharacter}
-			/>
+			<section className={styles.character_header_container}>
+				<CharacterHeader
+					name={selectedCharacter.name}
+					imageSrc={characterPath}
+					description={selectedCharacter.description}
+					character={selectedCharacter}
+				/>
+			</section>
 			<section className={styles.comics}>
 				<ComicsList comics={characterComics} />
 			</section>
