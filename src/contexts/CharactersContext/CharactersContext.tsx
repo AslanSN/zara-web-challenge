@@ -14,7 +14,7 @@ import {
 	fetchCharacterById,
 	fetchCharacters,
 	fetchComicImageByUri,
-} from '@/services/marvelApi'
+} from '@/contexts/CharactersContext/services/marvelApi'
 import { Character } from './types/characterTypes'
 
 /**
@@ -28,7 +28,7 @@ export const CharactersContext = createContext<
 export const initialCharactersContextState: CharactersState = {
 	allCharacters: [],
 	filteredCharacters: new Set([]),
-	favorites: JSON.parse(localStorage.getItem('favorites') || '[]'),
+	favorites: [],
 	charactersDisplaying: 0,
 	showFavorites: false,
 	selectedCharacter: null,
@@ -102,12 +102,26 @@ export const CharactersContextProvider: React.FC<{
 			const { items: comics } = selectedCharacter.comics
 
 			try {
+				const limitedComics = comics.slice(0, 20)
 				const comicsWithImagePaths = await Promise.all(
-					comics.map(async ({ resourceURI, name }) => {
+					limitedComics.map(async ({ resourceURI, name }) => {
 						const comicImage = await fetchComicImageByUri(resourceURI)
+						const regex = /^(.*?)\s*\((\d{4})\)\s*(#\d+)(?:\s*(.*))?$/
+
+						const match = name.match(regex)
+						if (!match) {
+							return {
+								imageName: name,
+								imagePath: comicImage,
+								imageYear: '',
+							}
+						}
+						const [_, nameWithoutYear, year, number] = match
+						const newName = `${nameWithoutYear} ${number}`
 						return {
-							imageName: name,
+							imageName: newName,
 							imagePath: comicImage,
+							imageYear: year,
 						}
 					})
 				)
@@ -182,8 +196,11 @@ export const CharactersContextProvider: React.FC<{
 
 	const setShowFavorites = useCallback(() => {
 		dispatch({ type: 'SET_SHOW_FAVORITES' })
-		clearSelection()
-	}, [clearSelection])
+	}, [])
+
+	const setHideFavorites = useCallback(() => {
+		dispatch({ type: 'SET_HIDE_FAVORITES' })
+	}, [])
 
 	const setFavoriteCharacter = useCallback((character: Character) => {
 		dispatch({ type: 'SET_FAVORITE_CHARACTER', payload: character })
@@ -195,11 +212,19 @@ export const CharactersContextProvider: React.FC<{
 
 	const setCharactersDisplaying = useCallback(
 		(charactersDisplaying: number) => {
+			if (charactersDisplaying <= 0) return
 			dispatch({
 				type: 'SET_CHARACTERS_DISPLAYING',
 				payload: charactersDisplaying,
 			})
 		},
+		[]
+	)
+
+	const setFavorites = useCallback(
+		(favorites: Character[]) =>
+			favorites.length > 0 &&
+			dispatch({ type: 'SET_FAVORITES', payload: favorites }),
 		[]
 	)
 
@@ -214,6 +239,8 @@ export const CharactersContextProvider: React.FC<{
 			searchCharacters,
 			toggleShowFavorites,
 			setShowFavorites,
+			setHideFavorites,
+			setFavorites,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
 			setCharactersDisplaying,
@@ -228,6 +255,8 @@ export const CharactersContextProvider: React.FC<{
 			searchCharacters,
 			toggleShowFavorites,
 			setShowFavorites,
+			setHideFavorites,
+			setFavorites,
 			setFavoriteCharacter,
 			unsetFavoriteCharacter,
 			setCharactersDisplaying,
