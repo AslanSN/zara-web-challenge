@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import useWindowWidth from '../../common/hooks/useCharacterCardWidth'
+import useWindowWidth from '../../common/hooks/useWindowWidth'
 import { useMemo } from 'react'
 
 interface CharacterCardProps {

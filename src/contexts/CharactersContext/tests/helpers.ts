@@ -1,4 +1,4 @@
-import { Character } from "@/types/types";
+import { Character } from "../types/characterTypes";
 
 export const mockedCharacter: Character = {
 	id: 1017100,

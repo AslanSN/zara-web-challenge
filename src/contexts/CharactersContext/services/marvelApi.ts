@@ -1,5 +1,5 @@
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import { createHash } from '@/utils/hash'
+import { createHash } from '@/contexts/CharactersContext/utils/hash'
 
 interface FetchCharactersParams {
 	offset: number
@@ -17,11 +17,7 @@ export const getApiBaseParams = () => {
 	}
 
 	const ts = Date.now().toString()
-	const hash = createHash(
-		ts,
-		NEXT_PUBLIC_PRIVATE_KEY,
-		NEXT_PUBLIC_KEY
-	)
+	const hash = createHash(ts, NEXT_PUBLIC_PRIVATE_KEY, NEXT_PUBLIC_KEY)
 
 	const encryptedParams = new URLSearchParams({
 		ts,
@@ -36,17 +32,20 @@ export const fetchCharacters = async ({
 	offset = 0,
 	limit = 50,
 	nameStartsWith,
-}: FetchCharactersParams): Promise<{newCharacters: Character[], error: Error | null}> => {
+}: FetchCharactersParams): Promise<{
+	newCharacters: Character[]
+	error: Error | null
+}> => {
 	const { BASE_URL, encryptedParams } = getApiBaseParams()
 
 	const url = new URL(BASE_URL)
 	url.searchParams.append('offset', offset.toString())
 	url.searchParams.append('limit', limit.toString())
-	
+
 	if (nameStartsWith) {
 		url.searchParams.append('nameStartsWith', nameStartsWith)
 	}
-	
+
 	encryptedParams.forEach((value, key) => url.searchParams.append(key, value))
 
 	const response = await fetch(url.toString())
@@ -54,7 +53,10 @@ export const fetchCharacters = async ({
 		if (response.status === 401) {
 			return { newCharacters: [], error: new Error('Invalid API key') }
 		}
-		return { newCharacters: [], error: new Error('Network response of Characters was not ok') }
+		return {
+			newCharacters: [],
+			error: new Error('Network response of Characters was not ok'),
+		}
 	}
 
 	const data = await response.json()
@@ -79,16 +81,18 @@ export const fetchCharacterById = async (id: number): Promise<Character> => {
 }
 
 export const fetchComicImageByUri = async (uri: string): Promise<string> => {
-  const { encryptedParams } =  getApiBaseParams()
+	const { encryptedParams } = getApiBaseParams()
 	const comicUrl = new URL(uri)
 
-	encryptedParams.forEach((value, key) => comicUrl.searchParams.append(key, value))
+	encryptedParams.forEach((value, key) =>
+		comicUrl.searchParams.append(key, value)
+	)
 
 	const response = await fetch(comicUrl.toString())
 	if (!response.ok) {
 		throw new Error('Network response of Comics was not ok')
 	}
-	
+
 	const data = await response.json()
 	const [{ thumbnail }] = data.data.results
 	const comicImage = thumbnail.path + '.' + thumbnail.extension

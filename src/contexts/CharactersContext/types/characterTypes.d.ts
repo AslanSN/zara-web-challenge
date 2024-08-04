@@ -24,6 +24,7 @@ export interface ComicsImages {
 export interface Image {
 	imagePath: ImagePath
 	imageName: string
+	imageYear: string
 }
 export interface Comics {
 	readonly available: number

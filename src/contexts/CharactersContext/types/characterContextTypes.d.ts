@@ -2,7 +2,7 @@ import { Character, ComicsImages, Id } from './characterTypes'
 
 export interface CharactersState {
 	allCharacters: Character[]
-	filteredCharacters:Set<Character>
+	filteredCharacters: Set<Character>
 	favorites: Character[]
 	charactersDisplaying: number
 	showFavorites: boolean
@@ -25,8 +25,10 @@ export type CharactersAction =
 	| { type: 'SELECT_CHARACTER'; payload: Character }
 	| { type: 'FETCH_CHARACTER_IMAGES_START' }
 	| { type: 'FETCH_CHARACTER_IMAGES_SUCCESS'; payload: ComicsImages }
+	| { type: 'SET_FAVORITES'; payload: Character[] }
 	| { type: 'TOGGLE_SHOW_FAVORITES' }
 	| { type: 'SET_SHOW_FAVORITES' }
+	| { type: 'SET_HIDE_FAVORITES' }
 	| { type: 'SET_FAVORITE_CHARACTER'; payload: Character }
 	| { type: 'UNSET_FAVORITE_CHARACTER'; payload: Character }
 	| { type: 'CLEAR_SELECTION' }
@@ -39,7 +41,9 @@ export interface CharactersContextType extends CharactersState {
 	fetchCharacter: (id: number) => Promise<void>
 	selectCharacter: (character: Character) => void
 	toggleShowFavorites: () => void
+	setFavorites: (favorites: Character[]) => void
 	setShowFavorites: () => void
+	setHideFavorites: () => void
 	setFavoriteCharacter: (character: Character) => void
 	unsetFavoriteCharacter: (character: Character) => void
 	fetchCharacterImages: (character: Character) => Promise<void>
