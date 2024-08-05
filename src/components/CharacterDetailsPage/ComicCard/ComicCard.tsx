@@ -3,8 +3,9 @@ import Image from 'next/image'
 import styles from './ComicCard.module.scss'
 import { useMemo } from 'react'
 import useWindowWidth from '@/components/common/hooks/useWindowWidth'
+import ImagePlaceholder from '@/components/common/CharacterCardPlaceholder'
 
-const ComicCard = ({ comic }: { comic: ImageType }) => {
+const ComicCard = ({ comic }: { comic?: ImageType }) => {
 	const { windowWidth } = useWindowWidth()
 	const [imageWidth, imageHeight] = useMemo(
 		() =>
@@ -16,7 +17,7 @@ const ComicCard = ({ comic }: { comic: ImageType }) => {
 		[windowWidth]
 	)
 
-	return (
+	return comic ? (
 		<li key={comic.imageName} className={`${styles.comic_card} card`}>
 			{!comic.imagePath ? null : (
 				<Image
@@ -29,6 +30,14 @@ const ComicCard = ({ comic }: { comic: ImageType }) => {
 			<footer>
 				<h4>{comic.imageName}</h4>
 				<p>{comic.imageYear}</p>
+			</footer>
+		</li>
+	) : (
+		<li className={`${styles.comic_card} card`}>
+			<ImagePlaceholder width={imageWidth} height={imageHeight} />
+			<footer>
+				<h4>Comic name</h4>
+				<p>Year</p>
 			</footer>
 		</li>
 	)

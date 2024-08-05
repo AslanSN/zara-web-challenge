@@ -3,16 +3,24 @@ import Image from 'next/image'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import styles from './FavoriteButton.module.scss'
-const FavoriteButton = ({ character }: { character: Character }) => {
+const FavoriteButton = ({
+	character,
+	isDisabled,
+}: {
+	character?: Character
+	isDisabled?: boolean
+}) => {
 	const { favorites, setFavoriteCharacter, unsetFavoriteCharacter } =
 		useCharacters()
 
 	const isFavorite = useMemo(
-		() => favorites.some((favorite) => favorite.id === character.id),
-		[character.id, favorites]
+		() =>
+			character && favorites.some((favorite) => favorite.id === character.id),
+		[character, favorites]
 	)
 
 	const handleFavorite = useCallback(() => {
+		if (!character) return
 		if (isFavorite) {
 			unsetFavoriteCharacter(character)
 			return
@@ -25,13 +33,14 @@ const FavoriteButton = ({ character }: { character: Character }) => {
 	)
 	return (
 		<button
-			type="button"
+			type='button'
 			className={styles.favorite_button}
 			onClick={handleFavorite}
+			disabled={isDisabled}
 		>
 			<Image
 				src={handleIconToShow}
-				alt="Favorite icon"
+				alt='Favorite icon'
 				width={24}
 				height={24}
 				priority

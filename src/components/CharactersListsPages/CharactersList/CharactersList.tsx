@@ -9,19 +9,6 @@ import {
 } from '@/contexts/CharactersContext/utils/predicates'
 import styled from 'styled-components'
 
-// const CharactersListSkeleton = () => {
-// 	return (
-// 		<div className={styles.characters_list_skeleton}>
-// 			{[...Array(20)].map((_, index) => (
-// 				<div
-// 					key={index}
-// 					className={styles.character_card_skeleton}
-// 				></div>
-// 			))}
-// 		</div>
-// 	)
-// }
-
 const MessageTitle = styled.h3`
 	margin: 0 0 1.5rem 0;
 `
@@ -32,6 +19,7 @@ const CharactersList = () => {
 		isLoading,
 		error,
 		favorites,
+		limit,
 		searchTerm,
 		filteredCharacters,
 		showFavorites,
@@ -69,9 +57,10 @@ const CharactersList = () => {
 		setCharactersDisplaying(charactersToDisplay.length)
 	}, [charactersToDisplay.length, setCharactersDisplaying])
 
-	if (isLoading && allCharacters.length === 0) {
-		return showFavorites ? <p>Loading favorites...</p> : <p>Loading...</p>
-	}
+	const mustShowSkelleton = useMemo(
+		() => isLoading && allCharacters.length === 0,
+		[allCharacters.length, isLoading]
+	)
 
 	if (error) {
 		return <p>Error: {error}</p>
@@ -86,17 +75,23 @@ const CharactersList = () => {
 				<MessageTitle>No characters found</MessageTitle>
 			)}
 			<ul>
-				{charactersToDisplay.map((character) => (
-					<li key={character.id}>
-						<CharacterCard
-							imageSrc={
-								character.thumbnail.path + '.' + character.thumbnail.extension
-							}
-							name={character.name}
-							character={character}
-						/>
-					</li>
-				))}
+				{mustShowSkelleton ? (
+					[...Array(limit)].map((_, index) => (
+					<li key={index}>
+						<CharacterCard/>
+					</li>	
+					))
+					
+					
+				) : (
+					charactersToDisplay.map((character) => (
+						<li key={character.id}>
+							<CharacterCard
+								character={character}
+							/>
+						</li>
+					))
+				)}
 			</ul>
 		</section>
 	)

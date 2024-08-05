@@ -3,8 +3,9 @@ div.character_card {
 		display: flex;
 		flex-direction: column;
 		width: fit-content;
+		overflow: hidden;
 	}
-	div {
+	div.info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
