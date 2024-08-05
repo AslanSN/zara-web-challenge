@@ -24,7 +24,8 @@ const ComicsList = ({ comics }: { comics: ComicsImages | undefined }) => {
 
 			<ul>
 				{showPlaceholder
-					? [...Array(5)].map(index => <ComicCard key={index} />)
+					? // eslint-disable-next-line react/no-array-index-key
+						[...Array(5)].map((_, index) => <ComicCard key={index} />)
 					: comics.images.map((comic: Image) => (
 							<ComicCard key={comic.imageName} comic={comic} />
 						))}

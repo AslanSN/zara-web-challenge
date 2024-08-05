@@ -13,8 +13,8 @@ import type {
 import { charactersReducer } from './characterReducer'
 import { Character } from './types/characterTypes'
 import {
-	fetchCharacterById,
 	fetchCharacters,
+	fetchCharacterById,
 	fetchComicImageByUri,
 } from './services/marvelApi'
 
@@ -53,14 +53,17 @@ export const CharactersContextProvider: React.FC<{
 	)
 
 	const fetchNextPage = useCallback(async (): Promise<void> => {
-		if (state.isLoading || !state.hasMore) return
+		const hasNotEmptySearchTerm = state.searchTerm !== ''
+		if (state.isLoading || (!state.hasMore && !hasNotEmptySearchTerm)) return
 
 		dispatch({ type: 'FETCH_START' })
 		try {
 			const { newCharacters, error } = await fetchCharacters({
-				offset: state.offset,
-				limit: state.limit,
+				limit: hasNotEmptySearchTerm ? 20 : state.limit,
+				offset: hasNotEmptySearchTerm ? 0 : state.offset,
+				nameStartsWith: hasNotEmptySearchTerm ? state.searchTerm : undefined,
 			})
+
 			if (error) {
 				dispatch({
 					type: 'FETCH_ERROR',
@@ -69,10 +72,20 @@ export const CharactersContextProvider: React.FC<{
 				})
 				return
 			}
-			dispatch({ type: 'FETCH_SUCCESS', payload: newCharacters })
-			if (newCharacters.length < state.maxCharacters) {
-				dispatch({ type: 'SET_HAS_MORE', payload: false })
+
+			if (state.searchTerm !== '') {
+				dispatch({
+					type: 'SET_CHARACTERS_DISPLAYING',
+					payload: newCharacters.length,
+				})
+				dispatch({
+					type: 'SET_FILTERED_CHARACTERS',
+					payload: new Set(newCharacters),
+				})
+				return
 			}
+
+			dispatch({ type: 'FETCH_SUCCESS', payload: newCharacters })
 		} catch (error) {
 			dispatch({
 				type: 'FETCH_ERROR',
@@ -81,11 +94,11 @@ export const CharactersContextProvider: React.FC<{
 			})
 		}
 	}, [
+		state.searchTerm,
 		state.isLoading,
 		state.hasMore,
-		state.offset,
 		state.limit,
-		state.maxCharacters,
+		state.offset,
 	])
 
 	const fetchCharacterImages = useCallback(

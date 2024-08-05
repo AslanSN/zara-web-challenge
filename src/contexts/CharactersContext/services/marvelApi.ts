@@ -27,15 +27,15 @@ export const getApiBaseParams = (): {
 }
 
 interface FetchCharactersParams {
-	offset: number
-	limit: number
+	offset?: number
+	limit?: number
 	nameStartsWith?: string
 }
 
 export const fetchCharacters = async ({
 	offset = 0,
 	limit = 50,
-	nameStartsWith,
+	nameStartsWith = undefined,
 }: FetchCharactersParams): Promise<{
 	newCharacters: Character[]
 	error: Error | null
@@ -43,11 +43,13 @@ export const fetchCharacters = async ({
 	const { BASE_URL, encryptedParams } = getApiBaseParams()
 
 	const url = new URL(BASE_URL)
-	url.searchParams.append('offset', offset.toString())
-	url.searchParams.append('limit', limit.toString())
 
-	if (nameStartsWith) {
+	if (nameStartsWith !== undefined && nameStartsWith !== '') {
 		url.searchParams.append('nameStartsWith', nameStartsWith)
+		url.searchParams.append('limit', limit.toString())
+	} else {
+		url.searchParams.append('offset', offset.toString())
+		url.searchParams.append('limit', limit.toString())
 	}
 
 	encryptedParams.forEach((value, key) => url.searchParams.append(key, value))

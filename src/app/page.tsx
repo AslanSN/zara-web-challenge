@@ -3,7 +3,7 @@ import HomePageContainer from '@/components/CharactersListsPages/HomePageContain
 import styles from './page.module.css'
 
 export const metadata: Metadata = {
-	title: 'Zara web challenge',
+	title: 'Zara Marvelous challenge',
 	description: 'A web challenge for Inditex enterprise',
 }
 

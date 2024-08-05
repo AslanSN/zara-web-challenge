@@ -7,6 +7,7 @@ import {
 	isNotEmptySet,
 } from '@/contexts/CharactersContext/utils/predicates'
 import styled from 'styled-components'
+import useDebounce from '@/components/common/hooks/useDebounce'
 import styles from './CharactersList.module.scss'
 import CharacterCard from '../CharacterCard/CharacterCard'
 
@@ -24,6 +25,7 @@ const CharactersList = () => {
 		searchTerm,
 		filteredCharacters,
 		showFavorites,
+		fetchNextPage,
 		setCharactersDisplaying,
 	} = useCharacters()
 
@@ -62,6 +64,19 @@ const CharactersList = () => {
 		() => isLoading && allCharacters.length === 0,
 		[allCharacters.length, isLoading]
 	)
+	const hasNotFoundFilteredCharacters = useMemo(
+		() => hasSearchTerm && !isNotEmptySet(filteredCharacters) && !isLoading,
+		[filteredCharacters, hasSearchTerm, isLoading]
+	)
+	const debouncedHasNotFoundFilteredCharacters = useDebounce(
+		hasNotFoundFilteredCharacters,
+		500
+	)
+	useEffect(() => {
+		if (debouncedHasNotFoundFilteredCharacters) {
+			fetchNextPage()
+		}
+	}, [debouncedHasNotFoundFilteredCharacters, fetchNextPage])
 
 	if (error) {
 		return <p>Error: {error}</p>
@@ -72,12 +87,13 @@ const CharactersList = () => {
 			{showFavorites && !isNotEmptyArray(favorites) && (
 				<MessageTitle>You should add some favorites first</MessageTitle>
 			)}
-			{hasSearchTerm && !isNotEmptySet(filteredCharacters) && (
+			{hasNotFoundFilteredCharacters && (
 				<MessageTitle>No characters found</MessageTitle>
 			)}
 			<ul>
 				{mustShowSkelleton
-					? [...Array(limit)].map(index => (
+					? [...Array(limit)].map((_, index) => (
+							// eslint-disable-next-line react/no-array-index-key
 							<li key={index}>
 								<CharacterCard />
 							</li>

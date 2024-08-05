@@ -6,12 +6,7 @@ export const useCharacters = () => {
 	const context = useCharactersContext()
 
 	const fetchNextPage = useCallback(async () => {
-		if (
-			context.isLoading ||
-			!context.hasMore ||
-			context.allCharacters.length !== 0
-		)
-			return
+		if (context.isLoading || !context.hasMore) return
 
 		await context.fetchNextPage()
 	}, [context])

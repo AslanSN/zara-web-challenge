@@ -34,6 +34,7 @@ export type CharactersAction =
 	| { type: 'UNSET_FAVORITE_CHARACTER'; payload: Character }
 	| { type: 'CLEAR_SELECTION' }
 	| { type: 'SET_SEARCH_TERM'; payload: string }
+	| { type: 'SET_FILTERED_CHARACTERS'; payload: Set<Character> }
 	| { type: 'SET_HAS_MORE'; payload: boolean }
 	| { type: 'SET_CHARACTERS_DISPLAYING'; payload: number }
 

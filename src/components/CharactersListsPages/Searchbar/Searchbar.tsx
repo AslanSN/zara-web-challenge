@@ -23,8 +23,9 @@ const SubtitleText = () => {
 
 const Searchbar = () => {
 	const { searchCharacters, searchTerm } = useCharacters()
+
 	const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-		searchCharacters(event.target.value)
+		searchCharacters(event?.target.value)
 	}
 
 	return (

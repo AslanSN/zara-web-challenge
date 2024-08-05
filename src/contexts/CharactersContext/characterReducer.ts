@@ -41,6 +41,7 @@ export const charactersReducer = (
 				isLoading: false,
 				offset: updatedCharacters.length,
 				error: null,
+				hasMore: updatedCharacters.length < state.maxCharacters,
 			}
 		}
 
@@ -128,13 +129,19 @@ export const charactersReducer = (
 
 			return {
 				...state,
-				searchTerm: action.payload,
+				searchTerm: action.payload.toLocaleLowerCase(),
 				filteredCharacters: new Set(filteredCharacters()),
 				offset: initialCharactersContextState.offset,
-				hasMore: true,
 			}
 		}
-
+		case 'SET_FILTERED_CHARACTERS': {
+			return {
+				...state,
+				filteredCharacters: new Set(action.payload),
+				isLoading: false,
+				error: null,
+			}
+		}
 		case 'SET_FAVORITES':
 			return { ...state, favorites: action.payload }
 		case 'SET_HAS_MORE':
