@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	fetchCharacterById,
 	fetchCharacters,
@@ -28,9 +28,9 @@ describe('API functions', () => {
 		process.env = { ...mockEnv } as NodeJS.ProcessEnv
 	})
 
-	// afterAll(() => {
-	//   vi.clearAllMocks()
-	// })
+	afterAll(() => {
+		vi.clearAllMocks()
+	})
 
 	describe('getApiBaseParams', () => {
 		it('should return base URL and encrypted params', () => {
