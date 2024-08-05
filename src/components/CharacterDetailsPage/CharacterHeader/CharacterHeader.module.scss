@@ -1,0 +1,35 @@
+div.character_header {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: var(--details-content-width);
+	gap: 1.5rem;
+
+	@media screen and (min-width: 600px) {
+		flex-direction: row;
+		div.info {
+			padding: 0 3rem;
+		}
+	}
+
+	div.info {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+		padding: 1rem 1rem 3rem 1rem;
+
+		div.title {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		p {
+			text-transform: none;
+			display: block;
+		}
+	}
+}

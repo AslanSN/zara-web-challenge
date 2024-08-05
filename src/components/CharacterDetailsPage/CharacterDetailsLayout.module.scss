@@ -1,0 +1,40 @@
+div.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 3rem;
+
+	section.character_header_container {
+		background: var(--black-background-color);
+		width: 100%;
+		color: white;
+		display: flex;
+		justify-content: center;
+		border-top: grey 1px solid;
+		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			border-bottom: 1.5rem solid var(--background-color);
+			border-left: 1.5rem solid var(--black-background-color);
+		}
+	}
+	section.comics {
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		padding: 0 0 3rem 1rem;
+
+		@media screen and (min-width: 600px) {
+			padding: 0 3rem 3rem;
+		}
+	}
+
+	@media screen and (min-width: 1060px) {
+		align-items: center;
+	}
+}

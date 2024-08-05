@@ -1,0 +1,22 @@
+section.character_list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	h3 {
+		text-align: center;
+	}
+	ul {
+		list-style: none;
+		width: 100%;
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+
+		li {
+			max-width: fit-content;
+		}
+	}
+}

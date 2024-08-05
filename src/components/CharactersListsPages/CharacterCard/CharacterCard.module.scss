@@ -1,0 +1,31 @@
+div.character_card {
+	a {
+		display: flex;
+		flex-direction: column;
+		width: fit-content;
+		overflow: hidden;
+	}
+	div.info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border: none;
+		outline: none;
+		border-top: 6px solid var(--marvel);
+		background: black;
+		text-align: center;
+		color: white;
+		padding: 0.5rem;
+		padding-right: 0;
+		position: relative;
+		text-wrap: nowrap;
+		&::after {
+			content: '';
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			border-bottom: 12px solid white;
+			border-left: 12px solid black;
+		}
+	}
+}

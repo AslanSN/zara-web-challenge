@@ -1,0 +1,36 @@
+nav.navbar {
+	background-color: black;
+	// display: flex;
+	ul {
+		display: flex;
+		align-items: center;
+		text-align: center;
+		width: 100%;
+		list-style: none;
+		justify-content: space-between;
+		padding: 1rem;
+		@media screen and (min-width: 600px) {
+			padding: 1rem 3rem;
+		}
+		li {
+			&.marvel_logo {
+				a {
+					display: flex;
+					height: 100%;
+				}
+			}
+			&.heart_icon {
+				div {
+					display: flex;
+					align-items: center;
+					color: var(--clear-text);
+					a,
+					button {
+						height: 2.5rem;
+						padding: 0.5rem;
+					}
+				}
+			}
+		}
+	}
+}

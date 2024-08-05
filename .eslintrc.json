@@ -1,3 +1,74 @@
 {
-  "extends": "next/core-web-vitals"
+	"extends": [
+		"airbnb",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:react/recommended",
+		"plugin:jsx-a11y/recommended",
+		"next/core-web-vitals",
+		"prettier"
+	],
+	"plugins": ["@typescript-eslint", "react", "jsx-a11y", "prettier"],
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true,
+			"tsx": true
+		},
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"rules": {
+		"react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				"ts": "never",
+				"tsx": "never"
+			}
+		],
+		"no-unused-vars": [
+			"error",
+			{ "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+		],
+		"@typescript-eslint/no-unused-expressions": [
+			"error",
+			{ "allowTernary": true }
+		],
+		"@typescript-eslint/no-unused-vars": [
+			"error",
+			{ "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
+		],
+		"react/require-default-props": "off",
+		"prettier/prettier": "error",
+		"react/react-in-jsx-scope": "off",
+		"react/prop-types": "off",
+		"jsx-a11y/anchor-is-valid": "off",
+		"no-console": "warn",
+		"no-tabs": "off",
+		"semi": "off",
+		"indent": "off",
+		"import/no-extraneous-dependencies": "off",
+		"implicit-arrow-linebreak": "off",
+		"import/prefer-default-export": "off",
+		"arrow-parens": "off",
+		"function-paren-newline": "off",
+		"react/function-component-definition": "off",
+		"react/jsx-indent-props": "off",
+		"react/jsx-indent": "off",
+		"arrpw-parens": "off",
+		"object-curly-newline": "off",
+		"curly": "off",
+		"comma-dangle": "off"
+	},
+	"settings": {
+		"react": {
+			"version": "detect"
+		},
+		"import/resolver": {
+			"node": {
+				"extensions": [".ts", ".tsx"]
+			}
+		}
+	}
 }

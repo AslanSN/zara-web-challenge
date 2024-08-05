@@ -1,26 +1,31 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import Navbar from "@/components/Navbar/Navbar";
-import "./globals.css";
+'use client'
 
-const inter = Inter({ subsets: ["latin"] });
+// eslint-disable-next-line camelcase
+import { Roboto_Condensed } from 'next/font/google'
+import Navbar from '@/components/common/Navbar/Navbar'
+import './globals.css'
+import React from 'react'
+import { CharactersContextProvider } from '@/contexts/CharactersContext/CharactersContext'
 
-export const metadata: Metadata = {
-  title: "Zara web challenge",
-  description: "A web challenge for Inditex enterprise",
-};
+const robotoCondensed = Roboto_Condensed({
+	subsets: ['latin'],
+	weight: ['400', '700'],
+	variable: '--font-roboto-condensed',
+})
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-      <Navbar/>
-        {children}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={robotoCondensed.className}>
+				<CharactersContextProvider>
+					<Navbar />
+					{children}
+				</CharactersContextProvider>
+			</body>
+		</html>
+	)
 }

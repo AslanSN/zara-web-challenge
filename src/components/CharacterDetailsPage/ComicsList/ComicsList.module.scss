@@ -1,0 +1,30 @@
+div.comics_list {
+	max-width: 100svw;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+	ul {
+		::-webkit-scrollbar {
+			display: none;
+		}
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		gap: 1rem;
+		max-width: inherit;
+		list-style: none;
+		overflow-x: scroll;
+		overflow-y: hidden;
+		li {
+			width: min-content;
+		}
+	}
+
+	@media screen and (min-width: 1060px) {
+		max-width: var(--details-content-width);
+		padding: 0;
+		::-webkit-scrollbar {
+			display: block;
+		}
+	}
+}
