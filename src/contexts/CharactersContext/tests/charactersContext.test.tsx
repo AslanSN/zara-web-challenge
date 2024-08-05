@@ -15,16 +15,14 @@ import {
 import { Character } from '../types/characterTypes'
 import { afterEach } from 'node:test'
 
-vi.mock('../services/marvelApi.ts', async (importOriginal) => {
-	const mod = await importOriginal()
-	return {
-		...mod,
-	}
-})
+vi.mock('../services/marvelApi.ts')
 
 describe('CharactersContext', () => {
-	afterEach(() => {
+	beforeEach(() => {
 		vi.resetAllMocks()
+	})
+	afterEach(() => {
+		vi.clearAllMocks()
 	})
 
 	it('should provide initial state', () => {
@@ -47,17 +45,17 @@ describe('CharactersContext', () => {
 			wrapper: CharactersContextProvider,
 		})
 
-		act(() => {
-			result.current.fetchNextPage()
+		await act(async () => {
+			await result.current.fetchNextPage()
 		})
 
-		expect(result.current.allCharacters).toEqual(mockedCharacter)
+		expect(result.current.allCharacters).toEqual([mockedCharacter])
 		expect(result.current.isLoading).toBeFalsy()
 	})
 
 	it('should handle fetch error', async () => {
 		const errorMessage = 'Network error'
-		mockFetchCharacters.mockResolvedValue({
+		vi.mocked(fetchCharacters).mockResolvedValue({
 			newCharacters: [],
 			error: new Error(errorMessage),
 		})
@@ -66,8 +64,8 @@ describe('CharactersContext', () => {
 			wrapper: CharactersContextProvider,
 		})
 
-		act(() => {
-			result.current.fetchNextPage()
+		await act(async () => {
+			await result.current.fetchNextPage()
 		})
 
 		expect(result.current.error).toBe(errorMessage)
@@ -76,14 +74,14 @@ describe('CharactersContext', () => {
 
 	it('should fetch character by id', async () => {
 		const mockCharacter = { id: 1, name: 'Iron Man' } as Character
-		mockFetchCharacters.mockResolvedValue(mockCharacter)
+		vi.mocked(fetchCharacterById).mockResolvedValue(mockCharacter)
 
 		const { result } = renderHook(() => useCharactersContext(), {
 			wrapper: CharactersContextProvider,
 		})
 
-		act(() => {
-			result.current.fetchCharacter(1)
+		await act(async () => {
+			await result.current.fetchCharacter(1)
 		})
 
 		expect(result.current.selectedCharacter).toEqual(mockCharacter)
@@ -104,14 +102,14 @@ describe('CharactersContext', () => {
 			},
 		} as Character
 		const mockComicImage = 'http://example.com/image.jpg'
-		mockFetchComicImageByUri.mockResolvedValue(mockComicImage)
+		vi.mocked(fetchComicImageByUri).mockResolvedValue(mockComicImage)
 
 		const { result } = renderHook(() => useCharactersContext(), {
 			wrapper: CharactersContextProvider,
 		})
 
-		act(() => {
-			result.current.fetchCharacterImages(mockCharacter)
+		await act(async () => {
+			await result.current.fetchCharacterImages(mockCharacter)
 		})
 
 		expect(result.current.comicsImages).toEqual([
@@ -163,7 +161,7 @@ describe('CharactersContext', () => {
 		expect(result.current.selectedCharacter).toBeNull()
 	})
 
-	it('should search characters', () => {
+	it('should search characters', async () => {
 		const mockCharacters = [
 			{ id: 1, name: 'Iron Man' },
 			{ id: 2, name: 'Spider-Man' },
@@ -176,13 +174,31 @@ describe('CharactersContext', () => {
 			),
 		})
 
-		act(() => {
+		// Add characters to state
+		await act(async () => {
 			result.current.setCharactersDisplaying(mockCharacters.length)
+			// Mock load characters
+			vi.mocked(fetchCharacters).mockResolvedValue({
+				newCharacters: mockCharacters,
+				error: null,
+			})
+			await result.current.fetchNextPage()
+		})
+
+		await act(async () => {
 			result.current.searchCharacters('man')
 		})
 
 		expect(result.current.searchTerm).toBe('man')
-		expect(result.current.filteredCharacters.size).toBe(2)
+		expect(result.current.allCharacters).toEqual(mockCharacters)
+
+		const filteredCharacters = result.current.allCharacters.filter(
+			(character) => character.name.toLowerCase().includes('man')
+		)
+		expect(filteredCharacters.length).toBe(2)
+		expect(result.current.filteredCharacters.size).toBe(
+			filteredCharacters.length
+		)
 	})
 
 	it('should toggle show favorites', () => {
