@@ -1,6 +1,6 @@
-import { useCharactersContext } from '@/contexts/CharactersContext'
-import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { useCallback, useMemo } from 'react'
+import { useCharactersContext } from '../CharactersContext'
+import { Character } from '../types/characterTypes'
 
 export const useCharacters = () => {
 	const context = useCharactersContext()
