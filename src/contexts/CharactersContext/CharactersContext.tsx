@@ -99,7 +99,8 @@ export const CharactersContextProvider: React.FC<{
 				const limitedComics = comics.slice(0, 20)
 				const comicsWithImagePaths = await Promise.all(
 					limitedComics.map(async ({ resourceURI, name }) => {
-						const comicImage = await fetchComicImageByUri(resourceURI)
+						const secureResourceURI = resourceURI.replace('http://', 'https://')
+						const comicImage = await fetchComicImageByUri(secureResourceURI)
 						const regex = /^(.*?)\s*\((\d{4})\)\s*(#\d+)(?:\s*(.*))?$/
 
 						const match = name.match(regex)
