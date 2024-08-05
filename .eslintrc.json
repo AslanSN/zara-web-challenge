@@ -40,7 +40,7 @@
 			{ "varsIgnorePattern": "^_", "argsIgnorePattern": "^_" }
 		],
 		"react/require-default-props": "off",
-		"prettier/prettier": "error",
+		"prettier/prettier": ["error", { "endOfLine": "auto" }],
 		"react/react-in-jsx-scope": "off",
 		"react/prop-types": "off",
 		"jsx-a11y/anchor-is-valid": "off",
