@@ -1,4 +1,52 @@
-import { Character } from '@/contexts/CharactersContext/types/characterTypes'
+export type Id = number
+export type ImagePath = string
+
+export interface Image {
+	imagePath: ImagePath
+	imageName: string
+	imageYear: string
+}
+export interface ComicsImages {
+	id: Id
+	images: Image[]
+}
+export interface ComicsItem {
+	readonly resourceURI: string
+	readonly name: string
+}
+export interface Comics {
+	readonly available: number
+	readonly collectionURI: string
+	readonly items: ComicsItem[]
+	readonly returned: number
+}
+
+export type ItemType = 'cover' | '' | 'interiorStory'
+
+export interface StoriesItem {
+	readonly resourceURI: string
+	readonly name: string
+	readonly type: ItemType
+}
+export interface Stories {
+	readonly available: number
+	readonly collectionURI: string
+	readonly items: StoriesItem[]
+	readonly returned: number
+}
+
+export type Extension = 'gif' | 'jpg'
+export interface Thumbnail {
+	readonly path: string
+	readonly extension: Extension
+}
+
+export type URLType = 'comiclink' | 'detail' | 'wiki'
+export interface URL {
+	readonly type: URLType
+	readonly url: string
+}
+
 export interface Character {
 	readonly id: Id
 	readonly name: string
@@ -12,56 +60,3 @@ export interface Character {
 	readonly events: Comics
 	readonly urls: URL[]
 }
-
-export type Id = number
-export type ImagePath = string
-
-export interface ComicsImages {
-	id: Id
-	images: Image[]
-}
-
-export interface Image {
-	imagePath: ImagePath
-	imageName: string
-	imageYear: string
-}
-export interface Comics {
-	readonly available: number
-	readonly collectionURI: string
-	readonly items: ComicsItem[]
-	readonly returned: number
-}
-
-export interface ComicsItem {
-	readonly resourceURI: string
-	readonly name: string
-}
-
-export interface Stories {
-	readonly available: number
-	readonly collectionURI: string
-	readonly items: StoriesItem[]
-	readonly returned: number
-}
-
-export interface StoriesItem {
-	readonly resourceURI: string
-	readonly name: string
-	readonly type: ItemType
-}
-
-export type ItemType = 'cover' | '' | 'interiorStory'
-
-export interface Thumbnail {
-	readonly path: string
-	readonly extension: Extension
-}
-
-export type Extension = 'gif' | 'jpg'
-export interface URL {
-	readonly type: URLType
-	readonly url: string
-}
-
-export type URLType = 'comiclink' | 'detail' | 'wiki'

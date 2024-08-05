@@ -1,5 +1,7 @@
 'use client'
-import {  Roboto_Condensed } from 'next/font/google'
+
+// eslint-disable-next-line camelcase
+import { Roboto_Condensed } from 'next/font/google'
 import Navbar from '@/components/common/Navbar/Navbar'
 import './globals.css'
 import React from 'react'

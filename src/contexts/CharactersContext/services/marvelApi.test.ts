@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import {
 	fetchCharacterById,
 	fetchCharacters,
@@ -15,10 +15,7 @@ const mockEnv = {
 
 // Mock de la función createHash
 vi.mock('@/contexts/CharactersContext/utils/hash', () => ({
-	createHash: vi.fn(() => {
-		console.log('createHash mock called')
-		return 'mocked_hash'
-	}),
+	createHash: vi.fn(() => 'mocked_hash'),
 }))
 
 // Mock de fetch

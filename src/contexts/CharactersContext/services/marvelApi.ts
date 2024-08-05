@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { createHash } from '../utils/hash'
 
@@ -22,7 +23,7 @@ export const getApiBaseParams = (): {
 		hash,
 	})
 
-	return { BASE_URL: NEXT_PUBLIC_BASE_URL, encryptedParams: encryptedParams }
+	return { BASE_URL: NEXT_PUBLIC_BASE_URL, encryptedParams }
 }
 
 interface FetchCharactersParams {
@@ -98,6 +99,6 @@ export const fetchComicImageByUri = async (uri: string): Promise<string> => {
 
 	const data = await response.json()
 	const [{ thumbnail }] = data.data.results
-	const comicImage = thumbnail.path + '.' + thumbnail.extension
+	const comicImage = `${thumbnail.path}.${thumbnail.extension}`
 	return comicImage
 }

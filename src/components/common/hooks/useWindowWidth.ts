@@ -15,7 +15,7 @@ const useWindowWidth = ({
 	const [windowWidth, setWindowWidth] = useState<WindowWidthType>('big')
 
 	const updateWindowWidth = useCallback(() => {
-		setWindowWidth((prevWidth) => {
+		setWindowWidth(prevWidth => {
 			switch (true) {
 				case window.innerWidth <= smallScreenBreakPoint:
 					return prevWidth !== 'small' ? 'small' : prevWidth

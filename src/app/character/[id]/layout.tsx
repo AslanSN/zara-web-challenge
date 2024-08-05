@@ -1,9 +1,4 @@
-const CharacterDetailsLayout = ({
-	children,
-}: {
-	children: React.ReactNode
-}) => {
-	return <>{children}</>
-}
+const CharacterDetailsLayout = ({ children }: { children: React.ReactNode }) =>
+	children
 
 export default CharacterDetailsLayout

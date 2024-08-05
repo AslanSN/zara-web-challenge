@@ -225,14 +225,20 @@ describe('charactersReducer', () => {
 	})
 
 	it('should handle SET_FAVORITES', () => {
-    const favorites: Character[] = [mockedCharacter, { id: 2, name: 'Thor' }] as Character[];
-    
-		const action: CharactersAction = { type: 'SET_FAVORITES', payload: favorites };
-    const newState = charactersReducer(initialCharactersContextState, action);
-    
-		expect(newState.favorites).toHaveLength(2);
-		expect(newState.favorites).toEqual(favorites);
-  });
+		const favorites: Character[] = [
+			mockedCharacter,
+			{ id: 2, name: 'Thor' },
+		] as Character[]
+
+		const action: CharactersAction = {
+			type: 'SET_FAVORITES',
+			payload: favorites,
+		}
+		const newState = charactersReducer(initialCharactersContextState, action)
+
+		expect(newState.favorites).toHaveLength(2)
+		expect(newState.favorites).toEqual(favorites)
+	})
 
 	it('should handle SET_HAS_MORE', () => {
 		const action: CharactersAction = {
@@ -240,14 +246,17 @@ describe('charactersReducer', () => {
 			payload: false,
 		}
 		const newState = charactersReducer(initialCharactersContextState, action)
-		
+
 		expect(newState.hasMore).toBeFalsy()
 	})
 
 	it('should handle SET_CHARACTERS_DISPLAYING', () => {
-    const action: CharactersAction = { type: 'SET_CHARACTERS_DISPLAYING', payload: 20 };
-    const newState = charactersReducer(initialCharactersContextState, action);
-   
-		expect(newState.charactersDisplaying).toBe(20);
-  });
-});
+		const action: CharactersAction = {
+			type: 'SET_CHARACTERS_DISPLAYING',
+			payload: 20,
+		}
+		const newState = charactersReducer(initialCharactersContextState, action)
+
+		expect(newState.charactersDisplaying).toBe(20)
+	})
+})

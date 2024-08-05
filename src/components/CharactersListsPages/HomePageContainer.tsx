@@ -1,8 +1,9 @@
 'use client'
+
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
+import { useEffect } from 'react'
 import CharactersList from './CharactersList/CharactersList'
 import Searchbar from './Searchbar/Searchbar'
-import { useEffect } from 'react'
 import styles from './HomePageContainer.module.scss'
 
 export default function HomePageContainer() {

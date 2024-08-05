@@ -1,4 +1,5 @@
-import { Character, ComicsImages, Id } from './characterTypes'
+/* eslint-disable no-unused-vars */
+import { Character, ComicsImages } from './characterTypes'
 
 export interface CharactersState {
 	allCharacters: Character[]

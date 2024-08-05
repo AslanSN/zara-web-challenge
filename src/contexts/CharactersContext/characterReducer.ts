@@ -2,6 +2,7 @@ import {
 	CharactersAction,
 	CharactersState,
 } from './types/characterContextTypes'
+// eslint-disable-next-line import/no-cycle
 import { initialCharactersContextState } from './CharactersContext'
 import { Character } from './types/characterTypes'
 
@@ -32,7 +33,7 @@ export const charactersReducer = (
 		case 'FETCH_START':
 			return { ...state, isLoading: true, error: null }
 
-		case 'FETCH_SUCCESS':
+		case 'FETCH_SUCCESS': {
 			const updatedCharacters = [...state.allCharacters, ...action.payload]
 			return {
 				...state,
@@ -41,24 +42,26 @@ export const charactersReducer = (
 				offset: updatedCharacters.length,
 				error: null,
 			}
+		}
 
 		case 'FETCH_ERROR':
 			return { ...state, isLoading: false, error: action.payload }
 
-		case 'SET_FAVORITE_CHARACTER':
+		case 'SET_FAVORITE_CHARACTER': {
 			const newFavorites = [...state.favorites, action.payload]
 			localStorage.setItem('favorites', JSON.stringify(newFavorites))
 			return { ...state, favorites: newFavorites }
-
-		case 'UNSET_FAVORITE_CHARACTER':
+		}
+		case 'UNSET_FAVORITE_CHARACTER': {
 			const updatedFavorites = state.favorites.filter(
-				(favorite) => favorite.id !== action.payload.id
+				favorite => favorite.id !== action.payload.id
 			)
 			localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
 			return {
 				...state,
 				favorites: updatedFavorites,
 			}
+		}
 
 		case 'TOGGLE_SHOW_FAVORITES':
 			return {
@@ -89,7 +92,6 @@ export const charactersReducer = (
 			}
 
 		case 'SELECT_CHARACTER':
-			action.payload
 			return {
 				...state,
 				selectedCharacter: action.payload,
@@ -112,14 +114,14 @@ export const charactersReducer = (
 		case 'CLEAR_SELECTION':
 			return { ...state, selectedCharacter: null }
 
-		case 'SET_SEARCH_TERM':
+		case 'SET_SEARCH_TERM': {
 			const filteredCharacters = (): Character[] => {
 				if (state.showFavorites) {
-					return state.favorites.filter((character) =>
+					return state.favorites.filter(character =>
 						filterFunction(character, action.payload)
 					)
 				}
-				return state.allCharacters.filter((character) =>
+				return state.allCharacters.filter(character =>
 					filterFunction(character, action.payload)
 				)
 			}
@@ -131,6 +133,7 @@ export const charactersReducer = (
 				offset: initialCharactersContextState.offset,
 				hasMore: true,
 			}
+		}
 
 		case 'SET_FAVORITES':
 			return { ...state, favorites: action.payload }

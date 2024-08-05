@@ -1,21 +1,21 @@
 import Image from 'next/image'
-import styles from './CharacterCard.module.scss'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
-import useWindowWidth from '../../common/hooks/useWindowWidth'
 import { useMemo } from 'react'
-import ImagePlaceholder from '../../common/CharacterCardPlaceholder'
 import { isNotEmptyObject } from '@/contexts/CharactersContext/utils/predicates'
+import useWindowWidth from '../../common/hooks/useWindowWidth'
+import styles from './CharacterCard.module.scss'
+import ImagePlaceholder from '../../common/CharacterCardPlaceholder'
 
 interface CharacterCardProps {
 	character?: Character
 }
 
 const InfoText = styled.p<{ $maxWidth: number }>`
-	max-width: ${(props) => props.$maxWidth}px;
+	max-width: ${props => props.$maxWidth}px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	text-align: start;
@@ -44,8 +44,8 @@ const CharacterCard = ({ character }: CharacterCardProps) => {
 			>
 				{character && isNotEmptyObject(character.thumbnail) ? (
 					<Image
-						src={character.thumbnail.path + '.' + character.thumbnail.extension}
-						alt={'image'}
+						src={`${character.thumbnail.path}.${character.thumbnail.extension}`}
+						alt="image"
 						height={imageHeight}
 						width={imageWidth}
 					/>

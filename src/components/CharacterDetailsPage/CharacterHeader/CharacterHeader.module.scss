@@ -5,7 +5,7 @@ div.character_header {
 	justify-content: center;
 	width: var(--details-content-width);
 	gap: 1.5rem;
-	
+
 	@media screen and (min-width: 600px) {
 		flex-direction: row;
 		div.info {
@@ -31,6 +31,5 @@ div.character_header {
 			text-transform: none;
 			display: block;
 		}
-		
 	}
 }

@@ -12,6 +12,7 @@ export const useCharacters = () => {
 			context.allCharacters.length !== 0
 		)
 			return
+
 		await context.fetchNextPage()
 	}, [context])
 

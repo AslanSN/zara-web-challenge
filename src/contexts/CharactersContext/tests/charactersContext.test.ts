@@ -1,5 +1,4 @@
-import React from 'react'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, vi, afterEach } from 'vitest'
 import { act, renderHook } from '@testing-library/react'
 import {
 	CharactersContextProvider,
@@ -13,7 +12,6 @@ import {
 	fetchComicImageByUri,
 } from '../services/marvelApi'
 import { Character } from '../types/characterTypes'
-import { afterEach } from 'node:test'
 
 vi.mock('../services/marvelApi.ts')
 
@@ -170,7 +168,6 @@ describe('CharactersContext', () => {
 
 		const { result } = renderHook(() => useCharactersContext(), {
 			wrapper: CharactersContextProvider,
-
 		})
 
 		await act(async () => {
@@ -191,8 +188,8 @@ describe('CharactersContext', () => {
 		expect(result.current.searchTerm).toBe('man')
 		expect(result.current.allCharacters).toEqual(mockCharacters)
 
-		const filteredCharacters = result.current.allCharacters.filter(
-			(character) => character.name.toLowerCase().includes('man')
+		const filteredCharacters = result.current.allCharacters.filter(character =>
+			character.name.toLowerCase().includes('man')
 		)
 		expect(filteredCharacters.length).toBe(2)
 		expect(result.current.filteredCharacters.size).toBe(

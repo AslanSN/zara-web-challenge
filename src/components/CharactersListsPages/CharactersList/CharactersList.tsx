@@ -1,13 +1,14 @@
 'use client'
-import CharacterCard from '../CharacterCard/CharacterCard'
+
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
-import styles from './CharactersList.module.scss'
 import { useEffect, useMemo } from 'react'
 import {
 	isNotEmptyArray,
 	isNotEmptySet,
 } from '@/contexts/CharactersContext/utils/predicates'
 import styled from 'styled-components'
+import styles from './CharactersList.module.scss'
+import CharacterCard from '../CharacterCard/CharacterCard'
 
 const MessageTitle = styled.h3`
 	margin: 0 0 1.5rem 0;
@@ -75,23 +76,17 @@ const CharactersList = () => {
 				<MessageTitle>No characters found</MessageTitle>
 			)}
 			<ul>
-				{mustShowSkelleton ? (
-					[...Array(limit)].map((_, index) => (
-					<li key={index}>
-						<CharacterCard/>
-					</li>	
-					))
-					
-					
-				) : (
-					charactersToDisplay.map((character) => (
-						<li key={character.id}>
-							<CharacterCard
-								character={character}
-							/>
-						</li>
-					))
-				)}
+				{mustShowSkelleton
+					? [...Array(limit)].map(index => (
+							<li key={index}>
+								<CharacterCard />
+							</li>
+						))
+					: charactersToDisplay.map(character => (
+							<li key={character.id}>
+								<CharacterCard character={character} />
+							</li>
+						))}
 			</ul>
 		</section>
 	)

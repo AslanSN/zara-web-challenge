@@ -1,12 +1,12 @@
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
+import { useEffect } from 'react'
+import styled from 'styled-components'
 import CharacterHeader from './CharacterHeader/CharacterHeader'
 import ComicsList from './ComicsList/ComicsList'
 import styles from './CharacterDetailsLayout.module.scss'
-import { useEffect } from 'react'
-import styled from 'styled-components'
 
 const MessageForUser = styled.h1`
-	width:100% ;
+	width: 100%;
 	text-align: center;
 `
 
@@ -23,7 +23,7 @@ const CharacterDetailsLayout = () => {
 		if (!selectedCharacter) return
 
 		const hasAlreadyImagePath = comicsImages.some(
-			(comic) => comic.id === selectedCharacter.id
+			comic => comic.id === selectedCharacter.id
 		)
 
 		if (hasAlreadyImagePath) return
@@ -32,14 +32,16 @@ const CharacterDetailsLayout = () => {
 	}, [comicsImages, fetchCharacterImages, selectedCharacter])
 
 	if (isLoading) return <MessageForUser>Loading...</MessageForUser>
-	if (!selectedCharacter) return <MessageForUser>No character selected</MessageForUser>
-	if (error) return <MessageForUser>We had an error, try again later</MessageForUser>
+	if (!selectedCharacter)
+		return <MessageForUser>No character selected</MessageForUser>
+	if (error)
+		return <MessageForUser>We had an error, try again later</MessageForUser>
 
 	const characterPath = selectedCharacter
 		? `${selectedCharacter.thumbnail.path}.${selectedCharacter.thumbnail.extension}`
 		: ''
 	const characterComics = comicsImages.find(
-		(comic) => comic.id === selectedCharacter.id
+		comic => comic.id === selectedCharacter.id
 	)
 
 	return (

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
-const ImagePlaceholderStyled = styled.div<{ width: number, height: number }>`
+const ImagePlaceholderStyled = styled.div<{ width: number; height: number }>`
 	position: relative;
-	width: ${(props) => props.width}px;
-	height: ${(props) => props.height}px;
+	width: ${props => props.width}px;
+	height: ${props => props.height}px;
 	background-color: var(--light-grey);
 	overflow: hidden;
 	.activity {
@@ -50,12 +50,16 @@ const ImagePlaceholderStyled = styled.div<{ width: number, height: number }>`
 	}
 `
 
-const ImagePlaceholder = ({ width, height }: { width: number, height: number }) => {
-	return (
-		<ImagePlaceholderStyled width={width} height={height}>
-			<div className='activity' />
-		</ImagePlaceholderStyled>
-	)
-}
+const ImagePlaceholder = ({
+	width,
+	height,
+}: {
+	width: number
+	height: number
+}) => (
+	<ImagePlaceholderStyled width={width} height={height}>
+		<div className="activity" />
+	</ImagePlaceholderStyled>
+)
 
 export default ImagePlaceholder

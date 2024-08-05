@@ -9,9 +9,14 @@ import type {
 	CharactersContextType,
 	CharactersState,
 } from './types/characterContextTypes'
+// eslint-disable-next-line import/no-cycle
 import { charactersReducer } from './characterReducer'
 import { Character } from './types/characterTypes'
-import { fetchCharacterById, fetchCharacters, fetchComicImageByUri } from './services/marvelApi'
+import {
+	fetchCharacterById,
+	fetchCharacters,
+	fetchComicImageByUri,
+} from './services/marvelApi'
 
 /**
  * ! CONTEXT
@@ -69,7 +74,6 @@ export const CharactersContextProvider: React.FC<{
 				dispatch({ type: 'SET_HAS_MORE', payload: false })
 			}
 		} catch (error) {
-			console.error('Error fetching characters:', error)
 			dispatch({
 				type: 'FETCH_ERROR',
 				payload:

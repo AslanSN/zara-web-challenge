@@ -22,7 +22,7 @@ div.container {
 			border-bottom: 1.5rem solid var(--background-color);
 			border-left: 1.5rem solid var(--black-background-color);
 		}
-		}
+	}
 	section.comics {
 		display: flex;
 		justify-content: center;
@@ -32,7 +32,6 @@ div.container {
 		@media screen and (min-width: 600px) {
 			padding: 0 3rem 3rem;
 		}
-
 	}
 
 	@media screen and (min-width: 1060px) {
