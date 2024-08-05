@@ -169,19 +169,18 @@ describe('CharactersContext', () => {
 		] as Character[]
 
 		const { result } = renderHook(() => useCharactersContext(), {
-			wrapper: ({ children }: { children: React.ReactNode }) => (
-				<CharactersContextProvider>{children}</CharactersContextProvider>
-			),
+			wrapper: CharactersContextProvider,
+
 		})
 
-		// Add characters to state
 		await act(async () => {
 			result.current.setCharactersDisplaying(mockCharacters.length)
-			// Mock load characters
+
 			vi.mocked(fetchCharacters).mockResolvedValue({
 				newCharacters: mockCharacters,
 				error: null,
 			})
+
 			await result.current.fetchNextPage()
 		})
 
