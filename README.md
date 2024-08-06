@@ -13,17 +13,21 @@ Para inicializar exitosamente el localhost es necesario introducir en la termina
 ```bash
 npm install && npm run dev
 ```
-Para finalizar el deploy local tan solo pulsa en la terminal `ctr+c`.
-Para reanudarlo utiliza el siguiente código:
+
+Para finalizar el deploy local tan solo pulsa en la terminal `ctr+c`. Para reanudarlo utiliza el siguiente código:
+
 ```bash
 npm run dev
 ```
 
 En caso de que se quiera iniciar la aplicación en modo producción úsense estos comandos:
+
 ```bash
 npm build && npm start
 ```
+
 Una vez detenido, reanudelo usando:
+
 ```bash
 npm start
 ```
