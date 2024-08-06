@@ -2,6 +2,12 @@
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { createHash } from '../utils/hash'
 
+/**
+ * Retrieves the base parameters for the API.
+ *
+ * @return {Object} An object containing the base URL and encrypted parameters.
+ * @throws {Error} If any of the required environment variables are missing.
+ */
 export const getApiBaseParams = (): {
 	BASE_URL: string
 	encryptedParams: URLSearchParams
@@ -32,6 +38,16 @@ interface FetchCharactersParams {
 	nameStartsWith?: string
 }
 
+/**
+ * Fetches characters from the Marvel API based on the provided parameters.
+ *
+ * @param {FetchCharactersParams} options - The options for fetching characters.
+ * @param {number} [options.offset=0] - The offset for pagination.
+ * @param {number} [options.limit=50] - The maximum number of characters to fetch.
+ * @param {string} [options.nameStartsWith] - The name to filter characters by.
+ * @returns {Promise<{ newCharacters: Character[]; error: Error | null }>} - A promise that resolves to an object containing the fetched characters and an error if any.
+ * @throws {Error} - If the API key is invalid or if there is a network error.
+ */
 export const fetchCharacters = async ({
 	offset = 0,
 	limit = 50,

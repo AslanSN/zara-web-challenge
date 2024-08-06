@@ -4,7 +4,16 @@ import CharacterDetailsLayout from '@/components/CharacterDetailsPage/CharacterD
 import { useCharacters } from '@/contexts/CharactersContext/hooks/useCharacters'
 import { useEffect } from 'react'
 
-const Character = ({ params }: { params: { id: string } }) => {
+/**
+ * Renders a character details layout component based on the provided character ID.
+ * Routes to the CharacterDetailsLayout component.
+ * Generates "/character/:id" route
+ *
+ * @param {Object} params - An object containing the character ID.
+ * @param {string} params.id - The ID of the character.
+ * @return {JSX.Element} The rendered character details layout component.
+ */
+const Character = ({ params }: { params: { id: string } }): JSX.Element => {
 	const { fetchCharacter, selectedCharacter, isLoading } = useCharacters()
 
 	useEffect(() => {

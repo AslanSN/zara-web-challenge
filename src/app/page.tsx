@@ -7,7 +7,11 @@ export const metadata: Metadata = {
 	description: 'A web challenge for Inditex enterprise',
 }
 
-export default function Home() {
+/**
+ * Renders the Home component.
+ *
+ * @return {JSX.Element} The rendered Home component, root of the app "/".
+ */ export default function Home(): JSX.Element {
 	return (
 		<main className={styles.main}>
 			<HomePageContainer />

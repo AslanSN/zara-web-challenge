@@ -6,6 +6,13 @@ import {
 import { initialCharactersContextState } from './CharactersContext'
 import { Character } from './types/characterTypes'
 
+/**
+ * Reduces the state of the characters context based on the given action.
+ *
+ * @param {CharactersState} state - The current state of the characters context.
+ * @param {CharactersAction} action - The action to be performed on the state.
+ * @return {CharactersState} The updated state of the characters context.
+ */
 export const charactersReducer = (
 	state: CharactersState,
 	action: CharactersAction

@@ -13,11 +13,17 @@ const robotoCondensed = Roboto_Condensed({
 	variable: '--font-roboto-condensed',
 })
 
+/**
+ * Renders the root layout of the application.
+ *
+ * @param {Readonly<{ children: React.ReactNode }>} props - The props object containing the children to render => Homepage, ./page.tsx.
+ * @return {JSX.Element} The root layout JSX element.
+ */
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode
-}>) {
+}>): JSX.Element {
 	return (
 		<html lang="en">
 			<body className={robotoCondensed.className}>

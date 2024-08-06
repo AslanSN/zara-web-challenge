@@ -6,7 +6,12 @@ import CharactersList from './CharactersList/CharactersList'
 import Searchbar from './Searchbar/Searchbar'
 import styles from './HomePageContainer.module.scss'
 
-export default function HomePageContainer() {
+/**
+ * Renders the HomePageContainer component.
+ *
+ * @return {JSX.Element} The rendered HomePageContainer component.
+ */
+export default function HomePageContainer(): JSX.Element {
 	const { fetchNextPage, setFavorites, showFavorites } = useCharacters()
 	useEffect(() => {
 		fetchNextPage()

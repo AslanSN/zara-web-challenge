@@ -20,7 +20,7 @@ import {
 
 /**
  * ! CONTEXT
- * @description Context
+ * @description ContextCreator
  */
 export const CharactersContext = createContext<
 	CharactersContextType | undefined
@@ -44,6 +44,12 @@ export const initialCharactersContextState: CharactersState = {
 	maxCharacters: 50,
 }
 
+/**
+ * A React functional component that provides a context for managing characters and their related data.
+ *
+ * @param {React.ReactNode} children - The child components that will have access to the characters context.
+ * @return {JSX.Element} The CharactersContextProvider component.
+ */
 export const CharactersContextProvider: React.FC<{
 	children: React.ReactNode
 }> = ({ children }) => {
@@ -279,8 +285,9 @@ export const CharactersContextProvider: React.FC<{
 }
 
 /**
- * ! Context Hook
- * @returns {CharactersContextType}
+ * Retrieves the CharactersContext and throws an error if it is undefined.
+ *
+ * @return {CharactersContextType} The CharactersContext
  */
 export const useCharactersContext = (): CharactersContextType => {
 	const context = useContext(CharactersContext)
