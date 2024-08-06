@@ -6,6 +6,28 @@ Prod: <a href="zara-marvelous.vercel.app">zara-marvelous.vercel.app</a>
 
 Esta prueba consiste en la creación de una pequeña aplicación para obtener información sobre diferentes personajes de Marvel. La aplicación deberá contener dos vistas principales: una vista de listado de personajes y una vista de detalle de personaje.
 
+## Iniciar local
+
+Para inicializar exitosamente el localhost es necesario introducir en la terminal el siguiente código
+
+```bash
+npm install && npm run dev
+```
+Para finalizar el deploy local tan solo pulsa en la terminal `ctr+c`.
+Para reanudarlo utiliza el siguiente código:
+```bash
+npm run dev
+```
+
+En caso de que se quiera iniciar la aplicación en modo producción úsense estos comandos:
+```bash
+npm build && npm start
+```
+Una vez detenido, reanudelo usando:
+```bash
+npm start
+```
+
 ## Ejecuciones
 
 - Framework: `Next.js`
