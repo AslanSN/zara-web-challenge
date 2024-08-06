@@ -7,14 +7,17 @@ Prod: <a href="zara-marvelous.vercel.app">zara-marvelous.vercel.app</a>
 ## Tabla de Contenidos
 
 - [Descripción](#descripción)
-- [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Requisitos Previos](#requisitos-previos)
-- [Instalación](#instalación)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Uso](#uso)
-- [Contribución](#contribución)
-- [Licencia](#licencia)
-- [Contacto](#contacto)
+- [Instrucciones de uso](#uso)
+- [Ejecuciones](#ejecuciones)
+- [Arquitectura](#arquitectura-y-estructura-del-proyecto)
+- [Lenguaje](#lenguaje)
+- [Linters y formatters](#linters-y-formatters)
+- [CI](#ci)
+- [Carpetas](#estructura-de-carpetas)
+- [App](#app)
+- [Components](#components)
+- [Context](#context)
+- [Dev Mode & Prod. Mode](#modo-desarrollo-y-modo-produccion]
 
 ## Descripción
 
