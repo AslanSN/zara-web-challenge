@@ -139,7 +139,7 @@ Se puede distinguir en app la página base (home) y la creación mediante slug d
 - Por defecto
   - Muestra un listado de hasta 50 personajes
 - Mediante texto en el buscador
-  - Si encuentra personajes que contengan el texto escrito muestra dichos personajes
+  - Si encuentra personajes cuyo nombre contenga el texto introducido, muestra dichos personajes
   - Si no los encuentra los buscará mediante la api con el parámetro `startsWith`
 - Al dar al botón en el navbar del corazón:
   - En la misma página se mostrarán los favoritos
