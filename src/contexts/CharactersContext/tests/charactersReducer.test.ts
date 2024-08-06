@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { charactersReducer } from '../characterReducer'
+import { charactersReducer } from '../charactersReducer'
 import { CharactersAction } from '../types/characterContextTypes'
 import { mockedCharacter } from './helpers'
 import { initialCharactersContextState } from '../CharactersContext'

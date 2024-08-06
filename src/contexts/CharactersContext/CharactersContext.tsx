@@ -10,7 +10,7 @@ import type {
 	CharactersState,
 } from './types/characterContextTypes'
 // eslint-disable-next-line import/no-cycle
-import { charactersReducer } from './characterReducer'
+import { charactersReducer } from './charactersReducer'
 import { Character } from './types/characterTypes'
 import {
 	fetchCharacters,

@@ -7,7 +7,7 @@ import {
 	isNotEmptySet,
 } from '@/contexts/CharactersContext/utils/predicates'
 import styled from 'styled-components'
-import useDebounce from '@/components/common/hooks/useDebounce'
+import useDebounce from '@/components/hooks/useDebounce'
 import styles from './CharactersList.module.scss'
 import CharacterCard from '../CharacterCard/CharacterCard'
 

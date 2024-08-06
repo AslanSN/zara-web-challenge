@@ -1,7 +1,7 @@
 import { type Image as ImageType } from '@/contexts/CharactersContext/types/characterTypes'
 import Image from 'next/image'
 import { useMemo } from 'react'
-import useWindowWidth from '@/components/common/hooks/useWindowWidth'
+import useWindowWidth from '@/components/hooks/useWindowWidth'
 import ImagePlaceholder from '@/components/common/CharacterCardPlaceholder'
 import styles from './ComicCard.module.scss'
 

@@ -6,7 +6,7 @@ import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { useMemo } from 'react'
 import { isNotEmptyObject } from '@/contexts/CharactersContext/utils/predicates'
-import useWindowWidth from '../../common/hooks/useWindowWidth'
+import useWindowWidth from '../../hooks/useWindowWidth'
 import styles from './CharacterCard.module.scss'
 import ImagePlaceholder from '../../common/CharacterCardPlaceholder'
 

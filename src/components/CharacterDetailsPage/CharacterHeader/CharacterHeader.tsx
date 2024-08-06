@@ -2,7 +2,7 @@ import Image from 'next/image'
 import FavoriteButton from '@/components/common/FavoriteButton/FavoriteButton'
 import { Character } from '@/contexts/CharactersContext/types/characterTypes'
 import { useMemo } from 'react'
-import useWindowWidth from '@/components/common/hooks/useWindowWidth'
+import useWindowWidth from '@/components/hooks/useWindowWidth'
 import styles from './CharacterHeader.module.scss'
 
 const CharacterHeader = ({
