@@ -1,12 +1,60 @@
 # Zara Web Challenge
 
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![License](https://img.shields.io/badge/license-MIT-blue)
+
 Prod: <a href="zara-marvelous.vercel.app">zara-marvelous.vercel.app</a>
 
-## Introducción
+## Tabla de Contenidos
 
-Esta prueba consiste en la creación de una pequeña aplicación para obtener información sobre diferentes personajes de Marvel. La aplicación deberá contener dos vistas principales: una vista de listado de personajes y una vista de detalle de personaje.
+- [Descripción](#descripción)
+- [Tecnologías Utilizadas](#tecnologías-utilizadas)
+- [Requisitos Previos](#requisitos-previos)
+- [Instalación](#instalación)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Uso](#uso)
+- [Contribución](#contribución)
+- [Licencia](#licencia)
+- [Contacto](#contacto)
 
-## Iniciar local
+## Descripción
+
+Este proyecto es una aplicación web desarrollada como parte de un desafío técnico para Zara. La aplicación permite a los usuarios realizar ciertas acciones específicas; obtener información sobre diferentes personajes de Marvel. La aplicación deberá contener dos vistas principales: una vista de listado de personajes y una vista de detalle de personaje.
+
+## Uso
+
+### Clonado
+
+Para instalar este proyecto, sigue estos pasos:
+
+Clona el repositorio:
+
+```bash
+git clone https://github.com/AslanSN/zara-web-challenge.git
+```
+
+Navega al directorio del proyecto:
+
+```bash
+cd zara-web-challenge
+```
+
+Instala las dependencias:
+
+```bash
+npm install
+```
+
+> Nota: Si usas otro administrador de paquetes, adapta el código conforme a él (pnpm, yarn, bun...).
+
+Inicializa el servidor en modo desarrollo:
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible mediante la url http://localhost:3000.
+
+### Uso desde Code Spaces o Gitpod...
 
 Para inicializar exitosamente el localhost es necesario introducir en la terminal el siguiente código
 
@@ -139,7 +187,7 @@ Se puede distinguir en app la página base (home) y la creación mediante slug d
 - Por defecto
   - Muestra un listado de hasta 50 personajes
 - Mediante texto en el buscador
-  - Si encuentra personajes cuyo nombre contenga el texto introducido, muestra dichos personajes
+  - Si encuentra personajes cuyo nombre _contiene_ el texto introducido, muestra dichos personajes
   - Si no los encuentra los buscará mediante la api con el parámetro `startsWith`
 - Al dar al botón en el navbar del corazón:
   - En la misma página se mostrarán los favoritos
@@ -191,7 +239,7 @@ Para el proveedor del contexto se ha utilizado un hook para facilitar el control
 
 Finalmente la capa más superficial está situada en el hook `useCharacters` que será el solicitado por los componentes para acceder a las acciones y estados del contexto.
 
-Se ha decidido persistir los favoritos en localhost para facilitar la recuperación de los mismos al usuario en falta de SWC o autenticación.
+Se ha decidido persistir los favoritos en localhost para facilitar la recuperación de los mismos al usuario en falta de autenticación.
 
 ### API REST
 
